@@ -1,0 +1,64 @@
+.form {
+  margin-top: 80px;
+  width: 450px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 450px;
+  border-radius: 20px;
+  color: #333;
+  border: 1px solid #08b80a;
+}
+
+
+.input__wrapper label{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+.input__wrapper input {
+  margin-top: 5px;
+  padding: 5px 7px;
+}
+.input__wrapper{
+  width: 80%;
+}
+
+
+.buttons__wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-top: 15px;
+}
+.button__reg, .button__reset {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  text-decoration: underline;
+}
+
+.button__reset {
+  font-size: 14px;
+}
+.button__reset:hover {
+  text-decoration: none;
+}
+
+.button__login {
+  background: #333;
+  color:#08b80a;
+  padding: 7px 40px;
+}
+
+.button__login:hover, .button__reg:hover{
+  opacity: 0.8;
+}
+
+.login_wrap {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

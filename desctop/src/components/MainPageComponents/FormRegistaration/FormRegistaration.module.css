@@ -1,0 +1,72 @@
+.form {
+  margin-top: 80px;
+  width: 450px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 580px;
+  border-radius: 20px;
+  color: #333;
+  border: 1px solid #08b80a;
+}
+
+
+.input__wrapper label{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+.input__wrapper input {
+  margin-top: 5px;
+  padding: 5px 7px;
+}
+.input__wrapper{
+  width: 80%;
+}
+
+
+.buttons__wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-top: 15px;
+}
+.button__login {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  text-decoration: underline;
+  margin-top: 20px;
+  width: 50px;
+  align-self: center;
+}
+.button__login:hover{
+  opacity: 0.8;
+}
+
+.button__reg {
+  background: #333;
+  color:#08b80a;
+  padding: 7px;
+}
+.button__reg:hover{
+  opacity: 0.8;
+}
+
+.message {
+  text-align: center;
+  margin-top: -15px;
+  padding-bottom: 0;
+  margin-bottom: 7px;
+  font-size: 12px;
+  color: red;
+}
+
+.fieldsIssues {
+  color: red;
+}
+
+.fieldsIssues input {
+  border: 1px solid red;
+}

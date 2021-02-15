@@ -1,0 +1,9 @@
+/admin/node_modules
+/desctop/node_modules
+/mobile/node_modules
+/server/node_modules
+
+/admin/.env
+/desctop/.env
+/mobile/.env
+/server/.env

@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../public/fonts/Roboto-Regular.ttf") format("truetype");
+}
+button {outline: none; cursor: pointer;}
+body {height:100%;font-family: "Roboto", "Arial", sans-serif;}
