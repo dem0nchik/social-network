@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import styles from './FormLogin.module.css'
 
 const FormLogin = (props) => {
@@ -6,6 +6,11 @@ const FormLogin = (props) => {
     email: '',
     password: ''
   })
+
+  useEffect(() => {
+    document.title = 'Вход | xcxlow'
+  }, []);
+
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -22,13 +27,17 @@ const FormLogin = (props) => {
     props.toggleForm(e.currentTarget.id)
   }
 
+  const setIssuesFieldStyle = (nameField) => {
+    return props.fields.includes(nameField) ? styles.fieldsIssues : ''
+  }
+
   return (
     <form onSubmit={submitHandler} className={styles.form}>
       <h2>Вход</h2>
       <p >Войдите в учетную запись</p>
 
       <div className={styles.input__wrapper}>
-      <label htmlFor="email">Почта
+      <label className={setIssuesFieldStyle('email')} htmlFor="email">Почта
           <input 
             id="email"
             type="email"
@@ -39,7 +48,7 @@ const FormLogin = (props) => {
           />
         </label>
 
-        <label htmlFor="password">Пароль
+        <label className={setIssuesFieldStyle('password')} htmlFor="password">Пароль
           <input 
             id="password"
             type="password"
@@ -52,9 +61,10 @@ const FormLogin = (props) => {
       </div>
 
       <div className={styles.buttons__wrapper}>
+          { props.message && <p className={styles.message}>{props.message}</p> }
           <button className={styles.button__login} title='Войти'>Войти</button>
         <div className={styles.login_wrap}>
-          <button className={styles.button__reset} title='Восстановить пароль'>забыли пароль?</button>
+          <a href='#' className={styles.link__reset} title='Восстановить пароль'>забыли пароль?</a>
           <button onClick={handleToggleForm} className={styles.button__reg} id='registration' title='Регистрация'>Регистрация</button>
         </div>
       </div>

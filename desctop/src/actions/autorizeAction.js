@@ -4,9 +4,11 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
 export const AUTORIZE_REQUEST = 'AUTORIZE_REQUEST'
 export const AUTORIZE_FAIL = 'AUTORIZE_FAIL'
+export const VERIFY_USER_REQUEST = 'VERIFY_USER_REQUEST'
+export const VERIFY_USER_FAIL = 'VERIFY_USER_FAIL'
 import config from '../config'
 
-const urlAutorize = config.DOMAIN +'/api/autorize'
+const urlAutorize = config.API_URL +'/api/autorize'
 
 
 export const registrationUserAction = (body) => {
@@ -31,6 +33,22 @@ export const isAutorizeAction = () => {
       }))
       .catch(() => dispatch({
         type: AUTORIZE_FAIL,
+        error: true,
+        payload: new Error('Ошибка авторизации')
+      }));
+  }
+}
+
+export const verifyUserAction = (idToken) => {
+  return (dispatch) => {
+    fetch(`${urlAutorize}/verify?idToken=${idToken}`)
+      .then(response => response.json())
+      .then(data => dispatch({
+        type: VERIFY_USER_REQUEST,
+        payload: data
+      }))
+      .catch(() => dispatch({
+        type: VERIFY_USER_FAIL,
         error: true,
         payload: new Error('Ошибка авторизации')
       }));

@@ -1,12 +1,17 @@
-import {AUTORIZE_FAIL, AUTORIZE_REQUEST, LOGIN_FAIL, LOGIN_REQUEST, REGISTRATION_REQUEST} from '../actions/autorizeAction'
+import {AUTORIZE_FAIL, AUTORIZE_REQUEST, 
+  LOGIN_FAIL, LOGIN_REQUEST, REGISTRATION_REQUEST, 
+  VERIFY_USER_FAIL, VERIFY_USER_REQUEST
+} from '../actions/autorizeAction'
 import {REGISTRATION_FAIL} from '../actions/autorizeAction'
+
 const initialState = {
   isAutorize: false,
   message: '',
   error: '',
   isFetch: true,
   fieldsIssues: [],
-  registerStatus: null
+  registerStatus: null,
+  verifyUser: false
 }
 
 export function autorizeReducer(state = initialState, action) {
@@ -19,6 +24,7 @@ export function autorizeReducer(state = initialState, action) {
           error: '',
           isFetch: false,
         }
+
     case REGISTRATION_FAIL:
       return {...state, isFetch: false, error: action.payload}
 
@@ -30,16 +36,29 @@ export function autorizeReducer(state = initialState, action) {
           error: '',
           isFetch: false,
         }
+
     case LOGIN_FAIL:
       return {...state, error: action.payload}
+
     case AUTORIZE_REQUEST:
       return {...state,
           isAutorize: action.payload.isAutorize,
           isFetch: false,
           error: ''
         }
+
     case AUTORIZE_FAIL:
       return {...state, isFetch: false, error: action.payload}
+
+    case VERIFY_USER_REQUEST:
+      return {...state, 
+          verifyUser: action.payload.verifyUser, 
+          isFetch: false
+        }
+
+    case VERIFY_USER_FAIL:
+      return {...state, isFetch: false, error: action.payload}
+      
     default:
       break;
   }

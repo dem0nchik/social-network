@@ -3,6 +3,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: 'development',
@@ -16,14 +17,20 @@ module.exports = {
     open: true,
     compress: true,
     hot: true,
-    port: process.env.DEV_SERVER_POST || 3000,
+    port: process.env.DEV_SERVER_POST || 4000,
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: 'public/index.html'
     }),
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new CopyPlugin({
+      patterns: [{
+        from: path.resolve(__dirname, 'public/favicon.ico'),
+        to: path.resolve(__dirname, 'dist')
+      }]
+    }),
   ],
   module: {
     rules: [

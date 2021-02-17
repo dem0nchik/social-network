@@ -34,9 +34,15 @@ const PageAutorize = (props) => {
   const [messageModal, setMessageModal] = useState('')
   const [readingModal, setReadingModal] = useState(false)
 
+
   useEffect(() => {
     if (props.autorize.registerStatus && !readingModal) {
-      setMessageModal(`Вы успешно зарегистрировались\n Пожалуйста подтвердите ваш Email,\nПисьмо с подтверждением отпрвлено на вашу почту`)
+      setMessageModal(`Вы успешно зарегистрировались\n Пожалуйста подтвердите ваш Email,\nПисьмо с подтверждением отправлено на вашу почту`)
+      setTogglemModal(true)
+    }
+
+    if (props.autorize.verifyUser && !readingModal) {
+      setMessageModal(`Ваша почта успешно подтвержденная ✅\nВвойдите в свой профиль`)
       setTogglemModal(true)
     }
   });
@@ -46,7 +52,7 @@ const PageAutorize = (props) => {
     setToggleForm(formName)
   }
 
-  const createHashtags = (hashes = []) => {
+  const createHashtags = (hashtags = []) => {
     return hashtags.map((el, i) => {
       return <a key={i} href='#'>#{el}</a>
     })
@@ -71,6 +77,8 @@ const PageAutorize = (props) => {
           ? <FormLogin
               toggleForm={handleToggleForm}
               loginUserAction={props.loginUserAction}
+              fields={props.autorize.fieldsIssues}
+              message={props.autorize.message}
             />
           : <FormRegistaration
               toggleForm={handleToggleForm}

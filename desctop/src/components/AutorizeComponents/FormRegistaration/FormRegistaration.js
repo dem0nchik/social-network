@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styles from './FormRegistaration.module.css'
 
 const FormRegistaration = (props) => {
@@ -9,6 +9,10 @@ const FormRegistaration = (props) => {
     name: '',
     surname: ''
   })
+
+  useEffect(() => {
+    document.title = 'Регистрация | xcxlow'
+  }, []);
 
   const handleValues = (e) => {
     const {id, value} = e.currentTarget

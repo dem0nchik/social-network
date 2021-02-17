@@ -7,3 +7,7 @@
 /desctop/.env
 /mobile/.env
 /server/.env
+
+/admin/dist
+/desctop/dist
+/mobile/dist
