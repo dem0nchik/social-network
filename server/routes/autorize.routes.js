@@ -8,8 +8,14 @@ router.post('/autorize/login', autorizeController.formLoginUser.bind(autorizeCon
 //Register user
 router.post('/autorize/registarion', autorizeController.formCreateUser.bind(autorizeController))
 
+//verify user mail
+router.get('/autorize/verify', autorizeController.verifyUserMail)
 
-//autorize in app
+//logout user
+router.get('/autorize/logout', autorizeController.logoutUser)
+
+//chek autorize in app
 router.get('/autorize', autorizeController.checkAutorizeUser)
+
 
 module.exports = router
