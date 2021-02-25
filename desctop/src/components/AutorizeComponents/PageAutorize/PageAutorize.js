@@ -4,7 +4,7 @@ import FormRegistaration from '../FormRegistaration/FormRegistaration'
 import FormLogin from '../FormLogin/FormLogin'
 import { loginUserAction, registrationUserAction } from '../../../actions/autorizeAction'
 import { connect } from 'react-redux'
-import ModalConfirm from '../../ModalConfirm/ModalConfirm'
+import ModalConfirm from '../../accessoryComponents/ModalConfirm/ModalConfirm'
 
 const hashtags = [
   'Создавай',

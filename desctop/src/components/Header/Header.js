@@ -1,12 +1,34 @@
 import React from 'react'
+import Search from './Search/Search'
+import styles from './Header.module.css'
+import AccountName from './AccountName/AccountName'
 
-const ContentPage = (props) => {
-
+const Header = (props) => {
   return (
-    <header>
-     <p>Header</p>
-    </header>
+    <div className={styles.header__wrapper}>
+      <header className={styles.header}>
+          <a  className={styles.logo} href="/">XCXLOW</a>
+          <div className={styles.search__wrapper}>
+            <Search />
+          </div>
+          { props.isAutorize
+          ? <>
+              <nav className={styles.navigation}>
+                <ul>
+                  <li><a href="/chat">Чаты</a></li>
+                  <li><a href="/group">Групы</a></li>
+                  <li><a href="/id02">Друзья</a></li>
+                </ul>
+              </nav>  
+              <AccountName />
+           </>
+          : <a className={styles.header_autorize} href="/"><h3 >Войти/Зарегистрироваться</h3></a>
+          }
+      </header>
+
+    </div>
+    
   )
 }
 
-export default ContentPage
+export default Header
