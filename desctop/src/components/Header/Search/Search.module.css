@@ -1,0 +1,16 @@
+.icon_search {
+  margin-left: -25px;
+  margin-bottom: -5px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.search label input{
+  background: #f6f8fa;
+  width: 310px;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 14px;
+  outline: none;
+  border: none;
+}

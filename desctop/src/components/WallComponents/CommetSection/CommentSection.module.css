@@ -1,0 +1,73 @@
+
+.comment_section hr{
+  border: 1px solid rgba(51, 51, 51, 0.1);
+  margin: 15px 10px 0 0;
+}
+
+.comment_section h4{
+  margin: 7px 0;
+  font-size: 14px;
+}
+
+.comment_header img{
+  border-radius: 50%;
+  object-fit: cover;
+  width: 45px;
+  height: 45px;
+  border: 1px solid #333;
+}
+
+.comment_header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.comment_description {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+}
+.comment_name {
+  margin: 0;
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+}
+.comment_date {
+  color: rgb(15, 20, 25);
+  font-size: 11px;
+  margin: 5px 0 0 7px;
+}
+.comment {
+  margin-left: 10px;
+}
+
+.comment_text {
+  margin-top: 7px;
+  padding: 0 7px;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+.comment_sent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.comment_sent button {
+  border: none;
+  border:1px solid rgba(15, 20, 25, 0.05);
+  background: rgba(222, 222, 222, 0.05);
+  border-radius: 5px;
+  margin-left: 10px;
+  color: #000bad;
+  padding: 7px 5px;
+}
+.comment_sent button:hover {
+  background: rgba(222, 222, 222, 0.3);
+}
+
+.comment_input_wrap {
+  width: 100%;
+}

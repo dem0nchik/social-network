@@ -216,6 +216,7 @@ class AutorizeController {
     }
   }
 
+  //log out
   logoutUser(req, res) {
     req.session.destroy(() => {
       res.redirect(process.env.BASE_URL)
