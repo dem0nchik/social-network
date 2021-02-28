@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from '../../components/Header/Header'
-import Feed from '../../components/Feed/Feed'
+import Feed from '../../components/WallComponents/Feed/Feed'
 import Widgets from '../../components/Widgets/Widgets'
 import styles from './ContentPage.module.css'
 import Info from '../../components/Info/Info'

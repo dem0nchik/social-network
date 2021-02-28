@@ -6,6 +6,9 @@ export const AUTORIZE_REQUEST = 'AUTORIZE_REQUEST'
 export const AUTORIZE_FAIL = 'AUTORIZE_FAIL'
 export const VERIFY_USER_REQUEST = 'VERIFY_USER_REQUEST'
 export const VERIFY_USER_FAIL = 'VERIFY_USER_FAIL'
+export const VIEW_MESSAGE_VERIFY = 'VIEW_MESSAGE_VERIFY'
+export const SET_TOGGLE_FORM = 'SET_TOGGLE_FORM'
+export const SET_READING_MODAL = 'SET_READING_MODAL'
 import config from '../config'
 
 const urlAutorize = config.API_URL +'/api/autorize'
@@ -54,6 +57,19 @@ export const verifyUserAction = (idToken) => {
       }));
   }
 }
+
+export const viewMessageVerifyAction = () => ({
+  type: VIEW_MESSAGE_VERIFY,
+})
+
+export const setToggleFormAction = (formName) => ({
+  type: SET_TOGGLE_FORM,
+  payload: formName
+})
+export const readingModalAction = (flag) => ({
+  type: SET_READING_MODAL,
+  payload: flag
+})
 
 const fetchAutorize = (body, dispatch, type) => {
   fetch(`${urlAutorize}/${type}`, {

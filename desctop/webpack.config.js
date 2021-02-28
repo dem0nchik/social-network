@@ -3,7 +3,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: 'development',
@@ -12,6 +12,9 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index_bundle.js',
     publicPath: '/'
+  },
+  performance: {
+    hints: 'warning',
   },
   devServer: {
     historyApiFallback: true,
@@ -24,7 +27,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html'
     }),
-    new FaviconsWebpackPlugin('public/favicon.ico'),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public/favicon.ico' },
+      ]
+    }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
   ],
