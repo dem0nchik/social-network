@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import styles from './PageAutorize.module.css'
 import FormRegistaration from '../FormRegistaration/FormRegistaration'
 import FormLogin from '../FormLogin/FormLogin'
-import { loginUserAction, registrationUserAction } from '../../../actions/autorizeAction'
+import { loginUserAction, readingModalAction, registrationUserAction, setToggleFormAction, viewMessageVerifyAction } from '../../../actions/autorizeAction'
 import { connect } from 'react-redux'
 import ModalConfirm from '../../accessoryComponents/ModalConfirm/ModalConfirm'
 
@@ -29,27 +29,24 @@ const hashtags = [
 ]
 
 const PageAutorize = (props) => {
-  const [toggleForm, setToggleForm] = useState('login')
   const [toggleModal, setTogglemModal] = useState(false)
   const [messageModal, setMessageModal] = useState('')
-  const [readingModal, setReadingModal] = useState(false)
-
 
   useEffect(() => {
-    if (props.autorize.registerStatus && !readingModal) {
+
+    if (props.autorize.registerStatus && !props.autorize.readingModal) {
       setMessageModal(`Вы успешно зарегистрировались\n Пожалуйста подтвердите ваш Email,\nПисьмо с подтверждением отправлено на вашу почту`)
       setTogglemModal(true)
     }
-
-    if (props.autorize.verifyUser && !readingModal) {
+    if (props.autorize.verifyUser && !props.autorize.readingModal) {
       setMessageModal(`Ваша почта успешно подтвержденная ✅\nВвойдите в свой профиль`)
       setTogglemModal(true)
     }
   });
   
-
   const handleToggleForm = (formName) => {
-    setToggleForm(formName)
+    props.setToggleFormAction(formName)
+    props.viewMessageVerifyAction()
   }
 
   const createHashtags = (hashtags = []) => {
@@ -60,8 +57,8 @@ const PageAutorize = (props) => {
   const modalCallback = e => {
     e.preventDefault()
     setTogglemModal(false)
-    setToggleForm('login')
-    setReadingModal(true)
+    props.setToggleFormAction('login')
+    props.readingModalAction(true)
   }
   return (
     <div className={styles.autorize}>
@@ -73,7 +70,7 @@ const PageAutorize = (props) => {
         </div>
       </div>
       <div className={styles.content}>
-        {toggleForm === 'login'
+        {props.autorize.formName === 'login'
           ? <FormLogin
               toggleForm={handleToggleForm}
               loginUserAction={props.loginUserAction}
@@ -95,7 +92,10 @@ const PageAutorize = (props) => {
 
 const mapDispatchToProps = dispatch => ({
   registrationUserAction: data => dispatch(registrationUserAction(data)),
-  loginUserAction: data => dispatch(loginUserAction(data))
+  loginUserAction: data => dispatch(loginUserAction(data)),
+  viewMessageVerifyAction: () => dispatch(viewMessageVerifyAction()),
+  setToggleFormAction: (formName) => dispatch(setToggleFormAction(formName)),
+  readingModalAction: (flag) => dispatch(readingModalAction(flag))
 })
 
 export default connect(store => ({autorize: store.autorize}), mapDispatchToProps)(PageAutorize)

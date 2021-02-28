@@ -1,6 +1,8 @@
 import {AUTORIZE_FAIL, AUTORIZE_REQUEST, 
   LOGIN_FAIL, LOGIN_REQUEST, REGISTRATION_REQUEST, 
-  VERIFY_USER_FAIL, VERIFY_USER_REQUEST
+  SET_READING_MODAL, 
+  SET_TOGGLE_FORM, 
+  VERIFY_USER_FAIL, VERIFY_USER_REQUEST, VIEW_MESSAGE_VERIFY
 } from '../actions/autorizeAction'
 import {REGISTRATION_FAIL} from '../actions/autorizeAction'
 
@@ -11,7 +13,9 @@ const initialState = {
   isFetch: true,
   fieldsIssues: [],
   registerStatus: null,
-  verifyUser: false
+  verifyUser: false,
+  formName: 'login',
+  readingModal: false
 }
 
 export function autorizeReducer(state = initialState, action) {
@@ -58,6 +62,15 @@ export function autorizeReducer(state = initialState, action) {
 
     case VERIFY_USER_FAIL:
       return {...state, isFetch: false, error: action.payload}
+
+    case VIEW_MESSAGE_VERIFY:
+      return {...state, verifyUser: false, isFetch: false}
+
+    case SET_TOGGLE_FORM:
+      return {...state, formName: action.payload, isFetch: false}
+
+    case SET_READING_MODAL:
+      return {...state, readingModal: action.payload, isFetch: false}
       
     default:
       break;

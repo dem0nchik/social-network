@@ -34,7 +34,7 @@ class AutorizeController {
             [email.trim(), hashPassword, name.trim(), surname.trim()])
 
         return {
-          message: 'Пользователь успешно создан',
+          message: 'Пользователь успешно создан, подтвердите ваш email',
           data: newPerson.rows[0]
         }
       } else {
@@ -159,7 +159,7 @@ class AutorizeController {
 
       await this.createUser({email, password, name, surname})
         .then(infoCreateUser => {
-          message = 'Пользователь успешно создан, подтвердите ваш email'
+          message = infoCreateUser.message
           user = infoCreateUser.data
         })
 
