@@ -1,7 +1,4 @@
 require('dotenv').config()
-const fs = require('fs');
-const http = require('http')
-const url  = require("url");
 const AWS = require('aws-sdk');
 
 const s3 = new AWS.S3({
@@ -10,59 +7,59 @@ const s3 = new AWS.S3({
   region: 'eu-north-1'
 });
 
-const uploadFile = (fileName) => {
-  const fileContent = fs.readFileSync('photo5420225616789222418.jpg');
-  console.log(fileContent);
-  const params = {
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Key: 'img/photo5420225616789222418.jpg',
-      Body: fileContent
-  };
+class S3Services {
 
-  s3.upload(params, function(err, data) {
-      if (err) {throw err;}
-      console.log(`File uploaded successfully. ${data.Location}`);
-  });
-};
+  async uploadFile (fileName, fileBody, fetchUploadFile) {    
+    const params = {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: fileName,
+        Body: fileBody
+    }
+    try {
+      await s3.upload(params, (err, data) => {
+        if (err) {throw err}
+        fetchUploadFile(data)
+      })
+    } catch (error) {
+      console.error(error);
+      if (error) {return new Error(error)}
+    }
+    
+  }
 
-const deleteFile = (fileName) => {
-  var params = {
-    Bucket: process.env.AWS_BUCKET_NAME,
-    Key: fileName
-  };
-  
-  s3.deleteObject(params, function(err, data) {
-    if (err) console.log(err, err.stack); // an error occurred
-    else     console.log(data);           // successful response
-  });
-
-}
-
-
-
-http.createServer(function(req, res){
-  var request = url.parse(req.url, true);
-  var action = request.pathname;
-  
-  if (action === '/img/photo5420225616789222418.jpg') {
+  async deleteFile (fileName, fetchDeleteFile) {
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: 'img/photo5420225616789222418.jpg'
-    }
-    s3.getObject(params, function(err, data) {
-        if (err) {
-            throw err
-        }
-        console.log(data);
-        res.writeHead(200, {'Content-Type': data.ContentType });
-        res.end(data.Body);
-    })
-  } else { 
-     res.writeHead(200, {'Content-Type': 'text/plain' });
-     res.end('Hello World \n');
+      Key: fileName
+    };
+    try {
+      s3.deleteObject(params, (err, data) => {
+        if (err) {throw err}
+        fetchDeleteFile(fileName, data)
+      })
+    } catch (error) {
+      console.error(error);
+      if (error) {return new Error(error)}
+    } 
+
   }
-}).listen(8080, '127.0.0.1');
 
 
-uploadFile()
-// deleteFile('t1.jpg')
+  async getFile (fileName, getFetchFile) {
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: fileName
+    }
+    try {
+      await s3.getObject(params, (err, data) => {
+        getFetchFile(data)
+      })
+    } catch (error) {
+      console.error(error);
+      if (error) {return new Error(error)}
+    }
+  }
+}
+
+module.exports = new S3Services()
+

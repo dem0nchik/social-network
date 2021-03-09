@@ -1,21 +1,49 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styles from './WallPost.module.css'
 import PhotoResize from '../PhotosResize/PhotosResize'
 import CommentSection from '../CommetSection/CommentSection'
 
 const WallPost = (props) => {
+  const [valueComment, setValueComment] = useState('')
+
   const commentData = props.data.commentData || 0
-  const images = props.data.images || null
+  const images = props.data.images || []
+
+  const handleLike = () => {
+    if (!props.data.selfLike && props.isAutorize) {
+      props.likePostAction(props.data.postId)      
+    } else if (props.data.selfLike && +props.data.heartCount > 0 && 
+               props.isAutorize ) {
+      props.unlikePostAction(props.data.postId)
+    }
+  }
+
+  const handleCommentSent = () => {
+    props.addNewCommentToPostAction(valueComment, props.data.postId)
+    setValueComment('')
+  }
+
+  const handleCommentValue = (e) => {
+    setValueComment(e.currentTarget.value)
+  }
+
+  const handleCommentsMore = () => {
+    props.getMoreCommentToPostAction(props.data.postId)
+  }
   
   return (
     <div className={styles.post}>
        <div className={styles.post_header}>
-         <img src={props.data.profileImg || null} alt=""/>
+         <a href={props.pathname}>
+           <img src={props.data.profileImg || null} alt=""/>
+          </a>
          <div className={styles.post_description}>
-          <p className={styles.post_name}>{props.data.name || ''}</p>
+          <a href={props.pathname}>
+            <p className={styles.post_name}>{props.data.name || ''}</p>
+          </a>
           <sub className={styles.post_date}>{props.data.date || 'date:'}</sub>
          </div>
-          <button>Подписаться</button>
+          { props.isGroup && <button>Подписаться</button> }
        </div>
 
        <pre className={styles.post_text}>{props.data.bodyText || ''}</pre>
@@ -29,7 +57,17 @@ const WallPost = (props) => {
        
 
        <div className={styles.post_icons_wrap}>
-        <div className={`${styles.icons} ${(+props.data.heartCount || 0) && styles.heart_active}`}>
+        <div 
+          className={`${styles.icons} 
+          ${
+            (+props.data.heartCount || 0) 
+            && 
+            (props.data.selfLike && styles.heart_active)
+          }`}
+          onClick={handleLike}
+          disabled={!props.isAutorize}
+          title={!props.isAutorize ? 'Ставить лайк можно только авторизированным пользователям' : ''}
+        >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" > 
             <defs>
             <linearGradient id="MyGradient"  x1="0" x2="0" y1="0" y2="1">
@@ -45,7 +83,18 @@ const WallPost = (props) => {
         </div>
       </div>
       
-      <CommentSection data={props.data.commentData || null}/>
+      { 
+        <CommentSection 
+          addNewCommentToPostAction={props.addNewCommentToPostAction}
+          data={props.data.commentData || null}
+          moreComments={props.data.moreComments}
+          isAutorize={props.isAutorize}
+          valueComment={valueComment}
+          handleCommentValue={handleCommentValue}
+          handleCommentSent={handleCommentSent}
+          handleCommentsMore={handleCommentsMore}
+        />
+      }
     </div>
   )
 }

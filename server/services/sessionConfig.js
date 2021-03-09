@@ -1,5 +1,6 @@
 require('dotenv').config()
 const db = require('./db')
+const yn = require('yn');
 const pgSession = require('connect-pg-simple')(require('express-session'))
 
 const sessionConfig = {
@@ -14,7 +15,7 @@ const sessionConfig = {
   cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       aameSite: true,
-      secure: false // ENABLE ONLY ON HTTPS
+      secure: yn(process.env.SESSION_SECURE) // ENABLE ONLY ON HTTPS
 }}
 
 module.exports = sessionConfig

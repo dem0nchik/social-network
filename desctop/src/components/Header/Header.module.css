@@ -2,6 +2,7 @@
   width: 100%;
   background: #333;
   position: fixed;
+  z-index: 2;
   top: 0;
 }
 .header {

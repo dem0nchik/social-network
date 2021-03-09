@@ -57,13 +57,7 @@
   padding-bottom: 10px;
 }
 
-.info__user img {
-  object-fit: cover;
-  width: 220px;
-  height: 250px;
-  align-self: center;
-  border: 5px solid rgba(222, 222, 222, 1);
-}
+
 
 .info__user h3 {
   margin: 10px 5px;

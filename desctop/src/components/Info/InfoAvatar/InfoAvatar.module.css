@@ -1,0 +1,57 @@
+.info_avatar {
+  position: relative;
+  width: 220px;
+  height: 250px;
+  align-self: center;
+  border: 5px solid rgba(222, 222, 222, 1);
+}
+.info_avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info_avatar__actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(33, 33, 33, 0.4);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  
+  transition: 0.1s all ease-in;
+}
+
+.input_add {
+  background: rgba(44, 44,44, 0.7);
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px dashed #fafcfa;
+  color: #fafcfa;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.input_add input {
+  display: none;
+}
+
+.input_add:hover {
+  background: rgba(44, 44,44, 0.5);
+}
+
+.button_remove {
+  border: 1px solid rgba(15, 20, 25, 0.3);
+  background: rgba(244, 244, 244, 0.9);
+  box-shadow: 3px 3px 10px rgb(37 37 37 / 20%);
+  margin-top: 20px;
+  border-radius: 5px;
+  color: #bb0000;
+  padding: 7px;
+}
+.button_remove:hover {
+  background: rgba(244, 244, 244, 0.7);
+}

@@ -1,5 +1,5 @@
 require('dotenv').config()
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const { validateEmail } = require('../utilits/utilits')
@@ -93,7 +93,7 @@ class AutorizeController {
             if(result) {
               message='Успешный вход'
               req.session.idUserSession = user.id
-              res.status(200).json({isAutorize: true, message, fieldsIssues: []})
+              res.json({isAutorize: true, message, fieldsIssues: []})
 
             } else {
               message = 'Введите правильный пароль и email'
@@ -102,11 +102,11 @@ class AutorizeController {
           })
         } else {
           message = 'Ваш аккаунт не активирован, подтвердите вашу почту'
-          res.status(200).json({isAutorize: false, message, fieldsIssues: fields})
+          res.json({isAutorize: false, message, fieldsIssues: fields})
         }
       }
     } else {
-      res.status(200).json({isAutorize: false, message, fieldsIssues: fields})
+      res.json({isAutorize: false, message, fieldsIssues: fields})
     }
   }
 
@@ -180,13 +180,13 @@ class AutorizeController {
         })
 
 
-        res.status(200).json({message, registerStatus: true, fieldsIssues: []})
+        res.json({message, registerStatus: true, fieldsIssues: []})
 
       } else {
-        res.status(200).json({message, registerStatus: false, fieldsIssues: fields})
+        res.json({message, registerStatus: false, fieldsIssues: fields})
       }
     } else {
-      res.status(200).json({message, registerStatus: false, fieldsIssues: fields})
+      res.json({message, registerStatus: false, fieldsIssues: fields})
     }
   }
 
@@ -226,9 +226,9 @@ class AutorizeController {
   //Check autorize user in app
   checkAutorizeUser(req, res) {
     if(req.session.idUserSession) {
-      res.status(200).json({isAutorize: true})
+      res.json({isAutorize: true})
     } else {
-      res.status(200).json({isAutorize: false})
+      res.json({isAutorize: false})
     }
   }
 

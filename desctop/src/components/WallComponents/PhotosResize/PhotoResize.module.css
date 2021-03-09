@@ -6,4 +6,5 @@
 .post_images img{
   object-fit: cover;
   border: 2px solid #fcfcfc;
+  max-height: 500px;
 }
