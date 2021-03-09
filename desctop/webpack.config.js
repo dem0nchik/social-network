@@ -13,15 +13,12 @@ module.exports = {
     filename: 'index_bundle.js',
     publicPath: '/'
   },
-  performance: {
-    hints: 'warning',
-  },
   devServer: {
     historyApiFallback: true,
     open: true,
     compress: true,
     hot: true,
-    port: process.env.DEV_SERVER_POST || 4000,
+    port: 4000,
   },
   plugins: [
     new HtmlWebpackPlugin({

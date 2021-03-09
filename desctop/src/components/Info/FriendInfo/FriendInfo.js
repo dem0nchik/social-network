@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import InfoAvatar from '../InfoAvatar/InfoAvatar'
 import styles from './FriendInfo.module.css'
 
 const FriendInfo = (props) => {
@@ -86,7 +87,7 @@ const FriendInfo = (props) => {
     </div>
 
     <div className={styles.info__user}>
-      <img src="/public/img/79jl6_Nb_400x400.jpg" alt="Фото профиля"/>
+      <InfoAvatar profileImg={"/public/img/79jl6_Nb_400x400.jpg"} />
       <h3>Иосиф Сталин</h3>
 
       <div className={styles.button_wrap}>

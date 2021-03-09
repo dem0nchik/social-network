@@ -4,39 +4,5 @@
   margin-bottom: 15px;
 }
 
-.post_add {
-  padding: 10px;
-  background-color: #fcfcfc;
-  border: 2px solid rgba(222, 222, 222, 1);
-  box-shadow: 3px 3px 10px rgb(37 37 37 / 20%);
-}
 
-.post_icons_photo {
-  margin-top: 2px;
-}
-.post_icons_photo svg{
-  fill: #333;
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-}
 
-.post_button_wrap {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.post_button_sent {
-  border: none;
-  border: 1px solid rgba(15, 20, 25, 0.1);
-  background: rgba(222, 222, 222, 0.1);
-  border-radius: 5px;
-  margin-right: 20px;
-  color: #000bad;
-  padding: 7px 5px;
-}
-.post_button_sent:hover {
-  background: rgba(222, 222, 222, 0.4);
-}

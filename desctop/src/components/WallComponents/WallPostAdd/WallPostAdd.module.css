@@ -1,0 +1,109 @@
+.post_add {
+  padding: 10px;
+  background-color: #fcfcfc;
+  border: 2px solid rgba(222, 222, 222, 1);
+  border-bottom: 4px solid rgba(0, 11, 173, 0.4);
+  box-shadow: 3px 3px 10px rgb(37 37 37 / 20%);
+}
+
+.post_input_wrap textarea:focus {
+  border: 1px solid rgba(0, 11, 173, 0.3);
+}
+
+
+.post_icons_photo input {
+  display: none;
+}
+
+.post_icons_photo {
+  margin-top: 2px;
+}
+.post_icons_photo svg{
+  fill: #333;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.post_add_img_wrap {
+  max-width: 30px;
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  align-items: center;
+  text-align: center;
+}
+
+.post_add_img_wrap svg:hover{
+  fill: rgba(51, 51, 51, 0.8)
+}
+
+.post_button_wrap {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.post_button_sent {
+  border: none;
+  border: 1px solid rgba(15, 20, 25, 0.1);
+  background: rgba(222, 222, 222, 0.1);
+  border-radius: 5px;
+  margin-right: 20px;
+  color: #000bad;
+  padding: 7px 5px;
+  box-shadow: 1px 1px 5px rgb(37 37 37 / 20%);
+  transition: all 0.2s ease-in;
+}
+.post_button_sent:hover {
+  box-shadow: 3px 3px 10px rgb(37 37 37 / 20%);
+  background: rgba(222, 222, 222, 0.4);
+}
+
+.post_button_sent[disabled] {
+  background: rgba(222, 222, 222, 0.9);
+  color: #888;
+}
+
+
+.atach_img_wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.atach_img_wrap_border {
+  border-top: 1px dashed rgba(222, 222, 222, 1);
+}
+
+
+.atach_img {
+  position: relative;
+  z-index: 1;
+  transition: all 0.2s ease-in;
+}
+.atach_img img {
+    max-width: 200px;
+    max-height: 100px;
+    border: 2px solid rgba(222, 222, 222, 1);
+    margin: 7px;
+}
+
+.atach_img span {
+  cursor: pointer;
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  font-size: 20px;
+  z-index: 2;
+  padding: 1px 6px;
+  background-color: rgba(222, 222, 222, 0.8);
+}
+
+.atach_img span:hover {
+  background-color: rgba(200, 200, 200, 1);
+}
+

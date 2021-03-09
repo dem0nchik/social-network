@@ -1,9 +1,5 @@
 .widgets {
   width: 280px;
+
 }
 
-.fixed {
-  position: fixed;
-  top: 67px;
-  right: 0;
-}

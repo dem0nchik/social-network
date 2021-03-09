@@ -5,25 +5,29 @@ import PageAutorize from '../components/AutorizeComponents/PageAutorize/PageAuto
 import { isAutorizeAction, verifyUserAction } from '../actions/autorizeAction'
 import VerifyUser from '../components/AutorizeComponents/VerifyUser/VerifyUser';
 import ContentPage from './ContentPage/ContentPage';
+import Skeleton from 'react-loading-skeleton';
 
 const App = (props) => {
   useEffect(() => {
     props.isAutorizeAction()
   }, [])
 
-
   const routeBaseUrl = (propsRoute) => {
     return (<>
         { props.autorize.isAutorize 
-          ? <ContentPage {...propsRoute} isAutorize={props.autorize.isAutorize}/>
+          ? <ContentPage {...propsRoute} isAutorize={props.autorize.isAutorize} />
           : <PageAutorize />
         } 
       </>
     )
   }
-
+  
   if (props.autorize.isFetch) { 
-    return null;
+    return ( <>
+        <Skeleton height={'60px'}/>
+        <Skeleton style={{marginTop: '20px'}} height={'85vh'}/>
+      </>
+    )
   } else {
     return (
       <Router>

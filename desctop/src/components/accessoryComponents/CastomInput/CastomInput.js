@@ -1,15 +1,19 @@
-import React, {useState} from 'react'
+import React from 'react'
+import TextareaAutosize from 'react-textarea-autosize';
 import styles from './CastomInput.module.css'
 const CastomInput = (props) => {
-  const minHeight = props.minHeight || '0px'
-  
+  const maxRows = props.maxRows || '1'
+  const minRows = props.minRows || '1'
+
   return (
-    <div 
-      dataplaceholder={props.placeholder || 'Введите текст'} 
+    <TextareaAutosize
+      placeholder={props.placeholder || 'Введите текст'} 
       className={styles.input_message} 
-      onInput={props.handleInput ? props.handleInput : null} 
-      contentEditable="true"
-      style={{minHeight: minHeight}}></div>
+      onInput={props.handleInput || null}
+      maxRows={maxRows}
+      minRows={minRows}
+      value={props.value || ''}
+      ></TextareaAutosize>
   )
 }
 
