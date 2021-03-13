@@ -5,75 +5,6 @@
   margin-left: 10px;
 }
 
-.group {
-  display: flex;
-  flex-direction: column;
-}
-
-.wrap_entity {
-  border-top: 1px solid rgba(222, 222, 222, 1);
-  width: 310px;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-
-.entity {
-  padding: 5px;
-  padding-right: 0;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 14px;
-  margin: 5px 7px;
-  margin-left: 0px;
-  width: 141px;
-  height: 60px;
-  display: flex;
-  flex-direction: row;
-  overflow-x: hidden;
-  align-items: center;
-  color: #333;
-  background: rgba(222, 222, 222, 0.3);
-  border: 1px solid rgba(222, 222, 222, 1);
-  word-wrap: break-word;
-  cursor: pointer;
-}
-.entity:hover {
-  background: rgba(222, 222, 222, 0.7);
-
-}
-
-.entity img{
-  border-radius: 50%;
-  object-fit: cover;
-  width: 45px;
-  height: 45px;
-  border: 1px solid #333;
-}
-
-.name_entity {
-  padding-left: 5px;
-}
-
-.group h3 {
-  margin-bottom: 5px;
-  font-weight: 500;
-  padding-left: 7px;
-  font-size: 16px;
-  color: #333;
-  font-weight: 600;
-}
-
-.more {
-  align-self: flex-end;
-  color: #333;
-  transition: all 0.1s ease-in;
-  margin-bottom: 15px;
-}
-.more:hover{
-  color: rgba(15, 20, 25, 0.5);
-}
-
 .additional_info {
   display: flex;
   margin-left: 15px;
@@ -122,7 +53,7 @@
   flex-direction: column;
 }
 .button_wrap button {
-  background: rgba(222, 222, 222, 1);
+  background: rgba(222, 222, 222, 0.3);
   border: 1px solid rgb(52, 43, 173);
   outline: none;
   font-size: 14px;
@@ -131,12 +62,46 @@
   padding: 5px 0;
   transition: all 0.1s ease-in;
   border-radius: 5px;
+  font-style: italic;
 }
 
-.button_wrap button+button {
+.button_wrap button:last-child {
   margin: 10px 0;
-  padding: 3px 0;
+  padding: 5px 0;
 }
 .button_wrap button:hover {
   background: transparent;
+}
+
+.button_add_friend:hover {  
+  color: #09630b !important;
+  background: rgba(9, 99, 11, 0.1) !important;
+  border: 1px solid #09630b !important;
+}
+
+.button_remove_friend:hover {  
+  color: #b43046 !important;
+  border: 1px solid #811124 !important;
+  background: rgba(180, 48, 70, 0.1) !important;
+}
+.button_remove_friend, .button_add_friend{
+  background: rgba(180, 180, 180, 0.1) !important;
+}
+
+.button_connect button {
+  margin: 0 !important;
+  width: 100%;
+  padding: 3px 0;
+}
+
+.button_wrap button:active {
+  background: rgba(232, 232, 232, 0.2);
+}
+
+.no_found {
+  width: 620px;
+  text-align: center;
+}
+.no_button {
+  margin-top: 15px;
 }

@@ -35,7 +35,50 @@ const _deleteUserImgS3 = async (img, fetchDeleteFile) => {
 }
 
 class UserController {
-  constructor() {}
+  async #getLimitFriendsUserFromDB(userId) {
+    try {
+      return await db.query(
+        `SELECT u.profile_img, u.name, u.surname, u.id FROM friend_people fp
+          INNER JOIN friends f ON f.f_id = fp.f_id
+          INNER JOIN users u ON fp.friend = u.id
+          WHERE f.user_id = $1
+          ORDER BY fp.f_id ASC
+          LIMIT 6`,
+          [userId]
+        )
+    } catch (err) {
+      console.error(err)
+      return new Error(err)
+    }
+  }
+
+  async #totalCountFriendsUserInDB(userId) {
+    try {
+      return await db.query(
+        `SELECT COUNT(fp.f_id) FROM friend_people fp
+        LEFT JOIN friends f ON f.f_id = fp.f_id
+        WHERE f.user_id = $1`,
+          [userId]
+        )
+    } catch (err) {
+      console.error(err)
+      return new Error(err)
+    }
+  }
+
+  #returnFriendsListArray(friendsArray) {
+    if(friendsArray.length) {
+      return friendsArray.map(friend => {
+        return {
+          profileImg: friend.profile_img,
+          name: `${friend.name} ${friend.surname}`,
+          link: `/id${friend.id}`
+        }
+      })
+    } else {
+      return friendsArray
+    }
+  }
 
   async getDataUser(req, res) {
     if (req.session.idUserSession) {
@@ -43,13 +86,20 @@ class UserController {
         const dataUserInDB = await db.query(`SELECT * FROM users WHERE id = $1`, [req.session.idUserSession])
         const user = dataUserInDB.rows[0]
 
+        const getAllFriends = await this.#getLimitFriendsUserFromDB(req.session.idUserSession)
+        const countFriends = await this.#totalCountFriendsUserInDB(req.session.idUserSession)
+
         res.json({
           id: user.id,
           name: user.name,
           surname: user.surname,
           email: user.email,
           data_created: user.data_create,
-          profile_img: user.profile_img
+          profile_img: user.profile_img,
+          friendList: {
+            list: this.#returnFriendsListArray(getAllFriends.rows),
+            count: countFriends.rows[0].count
+          }
         })
       } catch (err) {
         console.error(err);

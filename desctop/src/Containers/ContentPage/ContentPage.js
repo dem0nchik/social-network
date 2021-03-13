@@ -7,7 +7,7 @@ import Info from '../../components/Info/Info'
 import Wall from '../../components/WallComponents/Wall'
 import Chat from '../../components/Chat/Chat'
 import ViewEntity from '../../components/ViewEntity/ViewEntity'
-import { addNewProfileImgAction, deleteProfileImgAction, userDataAction } from '../../actions/userAction'
+import { userDataAction } from '../../actions/userAction'
 import { connect } from 'react-redux'
 
 const ContentPage = (props) => {
@@ -23,26 +23,39 @@ const ContentPage = (props) => {
   }
 
   const switchInfoComponent = () => {
-    if (hasLocation(['/id', '/group'], props.location.pathname)) {
-      return <Info 
-            pathname={props.location.pathname} 
-            isAutorize={props.isAutorize}
-            userData={props.user}
-            addNewProfileImgAction={props.addNewProfileImgAction}
-            deleteProfileImgAction={props.deleteProfileImgAction}
-          />
+    if (props.isAutorize) {
+      if ( hasLocation(['/id', '/group'], props.location.pathname) && !props.user.isUserDataFetching ) {
+        return <Info 
+              pathname={props.location.pathname} 
+              isAutorize={props.isAutorize}
+              userData={props.user}
+            />
+      }
+    } else {
+      if ( hasLocation(['/id', '/group'], props.location.pathname) ) {
+        return <Info 
+              pathname={props.location.pathname} 
+              isAutorize={props.isAutorize}
+              userData={props.user}
+              addNewProfileImgAction={props.addNewProfileImgAction}
+              deleteProfileImgAction={props.deleteProfileImgAction}
+            />
+      }
     }
+    
     return null
   }
 
   const switchComponentLocation = () => {
     if (props.isAutorize) {
-
       if (props.location.pathname === '/') {
         return <Feed /> 
       }
-      if (props.location.pathname === '/view') {
-        return <ViewEntity /> 
+      if (hasLocation(['/view', '/friend'], props.location.pathname)) {
+        return <ViewEntity 
+          pathname={props.location.pathname}
+          location={props.location}
+        /> 
       }
       if (hasLocation(['/chat'], props.location.pathname)) {
         return <Chat />
@@ -79,8 +92,6 @@ const ContentPage = (props) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  userDataAction: () => dispatch(userDataAction()),
-  addNewProfileImgAction: imgData => dispatch(addNewProfileImgAction(imgData)),
-  deleteProfileImgAction: () => dispatch(deleteProfileImgAction())
+  userDataAction: () => dispatch(userDataAction())
 })
 export default connect(store => ({user: store.user}), mapDispatchToProps)(ContentPage)

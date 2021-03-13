@@ -120,14 +120,14 @@ class postController {
 
 
 
-  async #getDataToPostInDB(postId, userId) {
+  async #getDataToPostInDB(postId, userId, sessionId) {
     try {
       const imagesFromPost = await this.#getImagesFromPostDB(postId)
       const arrayImages = this.#returnImagesArray(imagesFromPost.rows)
 
       const likesCount = await this.#countLikesPostFromDB(postId)
 
-      const selfLikeToPost = await this.#selfLikeToPostFromDB(postId, userId)
+      const selfLikeToPost = await this.#selfLikeToPostFromDB(postId, sessionId)
 
       const commentsFromPost = await this.#getLimitCommentsPostFromDB(postId)
       const commentsArray = await this.#returnCommentsArray(commentsFromPost.rows)
@@ -299,7 +299,7 @@ class postController {
   async getPostsUser(req, res) {
     try {
       const userId = +req.params.id
-      const userIdSession = +req.session.idUserSession
+      const sessionId = +req.session.idUserSession
       const currentPage = +req.query.page
 
       if (Number.isInteger(userId) && Number.isInteger(currentPage) && currentPage >= 1) {
@@ -311,7 +311,7 @@ class postController {
           const userPosts = userPostsFromDB.rows.map(async (post) => {
             const postId = post.post_id
 
-            const postData = await this.#getDataToPostInDB(postId, userIdSession)
+            const postData = await this.#getDataToPostInDB(postId, userId, sessionId)
 
             return {
               name: `${post.name} ${post.surname}`,

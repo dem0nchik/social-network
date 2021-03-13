@@ -4,7 +4,7 @@
   font-weight: normal;
   src: url("../public/fonts/Roboto-Regular.ttf") format("truetype");
 }
-a{text-decoration:none;}
+a{text-decoration:none; color: blue;}
 pre {line-height: normal;font-family: "Roboto", "Arial", sans-serif;}
 button {outline: none; cursor: pointer;}
 body {height:100%;font-family: "Roboto", "Arial", sans-serif;background: rgba(222, 222, 222, 0.2);}

@@ -2,7 +2,6 @@ import React from 'react'
 import styles from './CommentSection.module.css'
 
 const Comment = (props) => {
-  console.log(props.data);
   return (
     <div className={styles.comment}>
       <div className={styles.comment_header}>

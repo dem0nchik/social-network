@@ -1,6 +1,7 @@
 import React, { useEffect, useState }  from 'react'
 import ModalConfirm from '../../accessoryComponents/ModalConfirm/ModalConfirm'
 import InfoAvatar from '../InfoAvatar/InfoAvatar'
+import InfoEntity from '../InfoEntity/InfoEntity'
 import styles from './UserInfo.module.css'
 
 const UserInfo = (props) => {
@@ -40,6 +41,13 @@ const UserInfo = (props) => {
     props.deleteProfileImgAction()
   }
 
+
+  const whatEntity = {
+    group: 'group',
+    friend: 'friend'
+  }
+
+
   return (
     <>
     <div className={styles.info__group}>
@@ -47,20 +55,21 @@ const UserInfo = (props) => {
       {showModal}
 
       <div className={styles.group__wrapper}>
-        <div className={styles.group}>
-          <h3>Групы 0</h3>
-          <div className={`${styles.button_wrap} ${styles.button_add}`}>
-            <button>Добавить групу</button>
-          </div>
-          <a href="/group/create" className={styles.create_link}>создать новую</a>
-        </div>
-
-        <div className={styles.group}>
-          <h3>Друзья 0</h3>
-          <div className={`${styles.button_wrap} ${styles.button_add}`}>
-            <button>Добавить Друзей</button>
-          </div>
-        </div>
+        <InfoEntity 
+            whatEntity={whatEntity.group}
+            isAutorize={props.isAutorize}
+            userId={props.userData.id}
+            isUserProfile={true}
+            data={[]}
+          />
+        <InfoEntity 
+            whatEntity={whatEntity.friend}
+            isAutorize={props.isAutorize}
+            userId={props.userData.id}
+            isUserProfile={true}
+            count={props.userData.friendList.count}
+            data={props.userData.friendList.list}
+          />
       </div>
 
 

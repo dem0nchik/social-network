@@ -22,6 +22,8 @@ app.use('/api', routes.autorizeRouter)
 app.use('/api', routes.userRouter)
 app.use('/api', routes.s3FileRouter)
 app.use('/api', routes.postRouter)
+app.use('/api', routes.friendRouter)
+app.use('/api', routes.infoRouter)
 
 
 app.listen(PORT, () => console.log('Server is run on port', PORT))

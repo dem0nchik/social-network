@@ -1,23 +1,48 @@
 import React from 'react'
-import styles from './NewUsersWidgets.module.css'
+import WidgetEntity from '../WidgetEntity/WidgetEntity'
+import styles from '../Widgets.module.css'
 
 const NewUsersWidgets = (props) => {
+  React.useEffect(() => {
+    props.getListLastUsersAction()
+  }, [])
+
+
+  const nameEntity = (name) => {
+    if (name) {
+      return name.length > 25 ? name.substr(0, 27) : name
+    } else {
+      return ''
+    }
+  }
+  
+  const renderTemplateEntity = () => {
+    let template = null
+
+    if (!!props.data?.length) {
+      template = props.data.map((el, i) => {
+        return <WidgetEntity 
+          key={i}
+          name={nameEntity(el.name)}
+          profileImg={el.profileImg || ''}
+          link={el.link || ''}
+        />
+      })
+    }
+
+    return template
+  }
+  
   return (
     <div className={styles.users}>
       <a className={styles.title} href="/view?user=new"><h3 >Новые Пользователи</h3></a>
 
       <div className={styles.entity__wrap}>
-        <div className={styles.entity}>
-          <img src="public/img/user_icon.png" alt=""/>
-          <p className={styles.entity__name}>Игорь</p>
-          <span>1</span>
-        </div>
-
-        <div className={styles.entity}>
-          <img src="public/img/user_icon.png" alt=""/>
-          <p className={styles.entity__name}>Дима</p>
-          <span>3</span>
-        </div>
+        {
+          !!props.data?.length
+           ? renderTemplateEntity()
+           : <p className={styles.entity_nothing}>Пользователей нет</p>
+        }
       </div>
     </div>
   )

@@ -69,7 +69,7 @@ class AutorizeController {
 
     } else if (password.length < 6) {
 
-      message = 'Введите правильный пароль и email'
+      message = 'Пароль должен содержать не менее 6 символов'
       status = false
 
     } else { status = true }
@@ -209,10 +209,10 @@ class AutorizeController {
             });
         } catch (err) {
             console.log(err)
-            return res.sendStatus(403)
+            return res.sendStatus(403).end()
         }
     } else {
-        return res.sendStatus(403)
+        return res.sendStatus(403).end()
     }
   }
 

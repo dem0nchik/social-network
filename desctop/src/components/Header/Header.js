@@ -20,7 +20,7 @@ const Header = (props) => {
                 <ul>
                   <li><a href="/chat">Чаты</a></li>
                   <li><a href="/group">Групы</a></li>
-                  <li><a href="/id02">Друзья</a></li>
+                  <li><a href="/friend">Друзья</a></li>
                 </ul>
               </nav>  
               <AccountName userData={props.userData || {}}/>
