@@ -14,7 +14,7 @@ class s3FileController {
     const getAndSendFile = (data) => {
       if (data) {
         try {
-          const typeMime = mimeImg[req.params.id.split('.')[1]]
+          const typeMime = mimeImg[req.params.id.toLowerCase().split('.')[1]]
           res.writeHead(200, {'Content-Type': typeMime })
           res.end(data.Body, 'binary')
 

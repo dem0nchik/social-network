@@ -14,13 +14,18 @@ import {
   unlikePostAction
 } from '../../actions/postAction'
 import Skeleton from 'react-loading-skeleton';
-import { Redirect } from "react-router-dom";
 import { useInView } from 'react-intersection-observer';
+import PhotoView from '../accessoryComponents/PhotoView/PhotoView'
 
 const Wall = (props) => {
 
   const [isGroup, setIsGroup] = useState(false)
   const [isUser, setIsUser] = useState(false)
+  const [photoToView, setPhotoToView] = useState({
+    list: [],
+    currentIndex: '0',
+    show: false
+  })
 
   const { ref, inView } = useInView({
     threshold: 0,
@@ -58,12 +63,17 @@ const Wall = (props) => {
     }
   }, [props.post.postElseFetching])
 
+  const handlePhoto = (list, index) => {
+    setPhotoToView({list, currentIndex: index, show: true})
+  }
+
   const templateWallPost = () => {
     return props.post.postsData.map((data,i) => {
       return <WallPost 
         key={i} 
         data={data} 
         isGroup={isGroup}
+        handlePhoto={handlePhoto}
         likePostAction={props.likePostAction}
         unlikePostAction={props.unlikePostAction}
         addNewCommentToPostAction={props.addNewCommentToPostAction}
@@ -76,6 +86,15 @@ const Wall = (props) => {
 
   return (
     <div className={styles.wall}>
+      {
+        photoToView.show &&
+        <PhotoView 
+          list={photoToView.list} 
+          currentIndex={photoToView.currentIndex} 
+          close={() => setPhotoToView({...photoToView, show: false})}
+        />
+      }
+
       { !props.post.postFirstFetching ?
         <>
           { isUser && <WallPostAdd addNewPostUserAction={props.addNewPostUserAction}/> } 

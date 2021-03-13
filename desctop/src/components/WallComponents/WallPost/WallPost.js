@@ -30,6 +30,10 @@ const WallPost = (props) => {
   const handleCommentsMore = () => {
     props.getMoreCommentToPostAction(props.data.postId)
   }
+
+  const handlePhoto = (index) => {
+    props.handlePhoto(images, index)
+  }
   
   return (
     <div className={styles.post}>
@@ -50,7 +54,7 @@ const WallPost = (props) => {
 
       { images.length 
         ? <div className={styles.post_images_wrap}>
-          <PhotoResize images={images}/>
+          <PhotoResize images={images} handlePhoto={handlePhoto}/>
         </div>
         : null
       }
