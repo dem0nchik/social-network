@@ -26,7 +26,7 @@ const WallPostAdd = (props) => {
         formData.append('file'+i, el.file)
       })
     }
-
+    
     props.addNewPostUserAction(formData)
     setValueInput('')
     setAtachedImage([])
@@ -68,6 +68,7 @@ const WallPostAdd = (props) => {
   const selectImgPostAtach = (e) => {
     const files = e.currentTarget.files
     let errorMsg = ''
+    console.log();
 
     if (!files[0].type.includes('image')) {
       errorMsg = 'Пожалуйста выберите правильный формат изображения'
@@ -121,7 +122,7 @@ const WallPostAdd = (props) => {
         return true
     }
   }
-console.log();
+  
   return (
     <div className={styles.post_add}>
         {showModal}

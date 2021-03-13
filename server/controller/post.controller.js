@@ -1,5 +1,5 @@
 const imagemin = require('imagemin')
-const imageminMozjpeg = require('imagemin-mozjpeg')
+const imageminJpegoptim = require('imagemin-jpegoptim');
 const imageminPngquant = require('imagemin-pngquant')
 const db = require('../services/db')
 
@@ -14,9 +14,9 @@ class postController {
         const imagesUrl = []
 
         for (let i = 0; i < images.length; i++) {
-          const splitedFile = uncompImages[i].name.split('.')
+          const splitedFile = uncompImages[i].name.toLowerCase().split('.')
           const fileType = splitedFile[splitedFile.length-1]
-          const name = `${randomId()}.${fileType}`
+          const name = `${randomId()}.${fileType}`.toLowerCase()
 
           const imgUrl = `${process.env.API_URL}/api/file/post/img/${name}`
           imagesUrl.push(imgUrl)
@@ -78,8 +78,8 @@ class postController {
             compresedImage.push(
               imagemin.buffer(element.data, {
                 plugins: [
-                  imageminMozjpeg({quality: 70}),
-                  imageminPngquant({
+                imageminJpegoptim({progressive: true, max: 55}),
+                imageminPngquant({
                       quality: [0.6, 0.8]
                   })
                 ]

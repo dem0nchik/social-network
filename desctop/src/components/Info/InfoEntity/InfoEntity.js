@@ -60,7 +60,7 @@ const InfoEntity = (props) => {
       return `Друзей ${props.data.length}`
     }
   }
-console.log(props.isAutorize);
+  
   return (
         <div className={styles.group}>
           <h3>{titleReturn()}</h3>

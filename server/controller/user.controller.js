@@ -3,7 +3,7 @@ const db = require('../services/db')
 const S3Services = require('../services/S3')
 
 const imagemin = require('imagemin');
-const imageminMozjpeg = require('imagemin-mozjpeg');
+const imageminJpegoptim = require('imagemin-jpegoptim');
 const imageminPngquant = require('imagemin-pngquant');
 
 const { randomId } = require('../utilits/utilits')
@@ -125,7 +125,7 @@ class UserController {
 
         const fileMin = await imagemin.buffer(file.data, {
           plugins: [
-            imageminMozjpeg({quality: 50}),
+            imageminJpegoptim({progressive: true, max: 45}),
             imageminPngquant({
                 quality: [0.6, 0.8]
             })

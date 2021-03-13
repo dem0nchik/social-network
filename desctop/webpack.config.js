@@ -19,6 +19,8 @@ module.exports = {
     compress: true,
     hot: true,
     port: 4000,
+    host: '192.168.1.39',
+    disableHostCheck: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -27,6 +29,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: 'public/favicon.ico' },
+        { from: 'public/img', to: 'public/img'}
       ]
     }),
     new CleanWebpackPlugin(),

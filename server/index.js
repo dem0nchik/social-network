@@ -8,6 +8,7 @@ const sessionConfig = require('./services/sessionConfig')
 const routes = require('./routes')
 
 const PORT = process.env.PORT || 8080
+const HOST = process.env.HOST || 'localhost'
 const app = express()
 
 
@@ -26,4 +27,4 @@ app.use('/api', routes.friendRouter)
 app.use('/api', routes.infoRouter)
 
 
-app.listen(PORT, () => console.log('Server is run on port', PORT))
+app.listen(PORT, HOST, () => console.log('Server is run on ', HOST + ':' + PORT))

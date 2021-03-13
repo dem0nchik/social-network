@@ -48,6 +48,10 @@
   font-weight: 600;
 }
 
+.post_images_wrap img{
+  cursor: pointer;
+}
+
 .post_date {
   color: rgb(15, 20, 25);
   font-size: 12px;
