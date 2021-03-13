@@ -31,7 +31,8 @@ const initialState = {
   postFirstFetching: true,
   currentPage: 1,
   postElseFetching: false,
-  totalCount: 0
+  totalCount: 0,
+  err: ''
 }
 
 let newPosts = null
@@ -51,7 +52,8 @@ export function postReducer(state = initialState, action) {
       return {
         ...state, 
         postsData: action.payload.data,
-        totalCount: action.payload.totalCount
+        totalCount: action.payload.totalCount,
+        err: action.payload.data.err
       }
 
     case FIRST_GET_POST_USER_FAIL:
@@ -68,14 +70,15 @@ export function postReducer(state = initialState, action) {
         ...state, 
         currentPage: state.currentPage + 1, 
         postsData: newPosts,
-        totalCount: action.payload.totalCount
+        totalCount: action.payload.totalCount,
+        postElseFetching: false
       }
 
     case ELSE_GET_POST_USER_FAIL:
       return {...state, error: action.payload}
 
     case ELSE_GET_POST_USER_FETCHING:
-      return {...state, postElseFetching: false}
+      return {...state}
 
     case FETCHING_ELSE_POST_USER:
       return {...state, postElseFetching: true}

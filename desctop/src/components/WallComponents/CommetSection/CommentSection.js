@@ -23,8 +23,19 @@ const CommentSection = (props) => {
   
   return (
     <div className={styles.comment_section}>
-      <hr/>
-      <h4>Комментарии</h4>
+      {
+        props.isAutorize ? 
+        <> 
+          <hr/>
+          <h4>Комментарии</h4>
+        </>
+        : props.data?.length ?
+          <> 
+            <hr/>
+            <h4>Комментарии</h4>
+          </>
+          : null
+      }
       
       <div className={styles.comment_wrap}>
         {templateCommnet()}

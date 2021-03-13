@@ -1,0 +1,139 @@
+.group__wrapper {
+  display: flex;
+  border-bottom: 1px solid rgba(222, 222, 222, 1);
+  margin-left: 10px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap_entity {
+  border-top: 1px solid rgba(222, 222, 222, 1);
+  width: 310px;
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-word;
+}
+
+
+.entity {
+  padding: 5px;
+  padding-right: 0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 14px;
+  border-radius: 7px;
+  margin: 5px 7px;
+  margin-left: 0px;
+  width: 141px;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #333;
+  background: rgba(222, 222, 222, 0.2);
+  border: 1px solid rgba(222, 222, 222, 1);
+  cursor: pointer;
+  box-shadow: 1px 1px 5px rgba(51, 51, 51, 0.1);
+}
+.entity:hover {
+  background: rgba(222, 222, 222, 0.7);
+
+}
+.entity a {
+  display: flex;
+  color: #000bcd;
+  flex-direction: row;
+}
+
+.entity img{
+  border-radius: 50%;
+  object-fit: cover;
+  width: 45px;
+  height: 45px;
+  border: 1px solid #333;
+}
+
+.name_entity {
+  padding-left: 5px;
+}
+
+.group h3 {
+  margin-bottom: 5px;
+  font-weight: 500;
+  padding-left: 7px;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+
+.more {
+  align-self: flex-end;
+  color: #333;
+  transition: all 0.1s ease-in;
+  margin-bottom: 15px;
+}
+.more:hover{
+  color: rgba(15, 20, 25, 0.5);
+}
+
+.entity_no {
+  color: #000bad;
+  text-align: center;
+}
+
+
+.button_wrap {
+  margin: 0 35px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+.button_wrap button, .button_wrap a {
+  background: rgba(222, 222, 222, 1);
+  border: 1px solid rgb(52, 43, 173);
+  outline: none;
+  font-size: 14px;
+  color: rgb(52, 43, 173);
+  font-weight: 600;
+  padding: 5px 0;
+  transition: all 0.1s ease-in;
+  border-radius: 5px;
+}
+.button_wrap button:hover,a:hover {
+  background: transparent;
+}
+
+.button_wrap a {
+  text-align: center;
+}
+.button_wrap a:hover {
+  background: transparent;
+}
+
+.button_add {
+  margin: 15px 35px;
+}
+
+.button_add button{
+  padding: 10px;
+}
+
+.create_link {
+  margin-left: 40px;
+  margin-bottom: 10px;
+  color: #08b80a;
+  text-decoration: underline;
+  animation-timing-function: ease;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  transform-origin: bottom;
+  animation-name: create_link;
+}
+@keyframes create_link {
+  0%   { transform: translateY(0); }
+  60%  { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}

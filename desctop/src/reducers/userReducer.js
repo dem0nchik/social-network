@@ -16,6 +16,10 @@ const initialState = {
   data_created: '',
   profile_img: null,
   isReceive: false,
+  friendList: {
+    list: [],
+    count: 0
+  },
   error: '',
   isUserDataFetching: true
 }
@@ -30,6 +34,10 @@ export function userReducer(state = initialState, action) {
         email: action.payload.email,
         data_created: action.payload.data_created,
         profile_img: action.payload.profile_img,
+        friendList: {
+          list: action.payload.friendList.list,
+          count: action.payload.friendList.count
+        },
         isReceive: false
       }
     case USER_DATA_FAIL:

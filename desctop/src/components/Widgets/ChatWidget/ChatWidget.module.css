@@ -2,14 +2,15 @@
   border-radius: 10px;
   border: 1px solid rgba(51, 51, 51, 0.3);
   background: rgba(252, 252, 252, 0.4);
-  height: 320px;
+  height: 300px;
   box-shadow: 3px 3px 10px rgb(37 37 37 / 20%);
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 .chat__title h3 {
   padding-left: 10px;
-  margin: 15px 0;
+  font-size: 16px;
+  margin: 12px 0;
   color: #333;
 }
 
@@ -17,7 +18,7 @@
   border-top: 1px solid rgba(222, 222, 222, 1);
   border-bottom-left-radius: 10px;
   overflow-y: scroll;
-  height: 269px;
+  height: 249px;
   background: #fcfcfc;
 }
 .entity__wrap::-webkit-scrollbar {
@@ -71,4 +72,8 @@
   border-radius: 50%;
   margin-left: 5px;
   margin-top: -5px;
+}
+
+.entity_nothing {
+  text-align: center;
 }

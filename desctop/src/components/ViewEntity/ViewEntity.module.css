@@ -8,6 +8,8 @@
 }
 
 .view h2{
+  text-decoration: underline;
+  font-size: 24px;
   margin-left: 10px;
   color: #333;
 }
@@ -21,12 +23,22 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-bottom: 1px solid rgba(15, 20, 25, 0.05);
-  margin: 10px;
+  border: 1px solid rgba(102, 102, 102, 0.3);
+  border-bottom: 1px solid rgba(15, 20, 25, 0.3);
+  border-radius: 5px;
+  margin: 7px 10px;
   padding-bottom: 5px;
+  transition: all 0.2s ease-in;
+  background: linear-gradient(360deg, rgba(242, 242, 242, 0.3), rgba(242, 242, 242, 0.1));
+}
+.entity a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .entity img {
+  margin: 5px 0 0 5px;
   object-fit: cover;
   width: 40px;
   height: 40px;
@@ -40,6 +52,12 @@
   font-weight: 600;
   margin-left: 10px;
 }
+.entity_name:hover {
+  color: #8a1057 !important;
+}
+.entity:hover {
+  box-shadow: 1px 5px 5px rgba(51, 51, 51, 0.1);
+}
 
 .entity button {
   background: rgba(222, 222, 222, 0.6);
@@ -52,4 +70,9 @@
   transition: all 0.1s ease-in;
   border-radius: 5px;
   margin-left: 10px;
+}
+
+.entity_nothing {
+  font-style: italic;
+  margin-left: 15px;
 }

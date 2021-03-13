@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { getListLastUsersAction } from '../../actions/infoAction'
 import AutorizeWidget from './AutorizeWidget/AutorizeWidget'
 import ChatWidget from './ChatWidget/ChatWidget'
 import NewGroupWidgets from './NewGroupWidgets/NewGroupWidgets'
@@ -12,11 +14,18 @@ const Widgets = (props) => {
       ? <AutorizeWidget />
       : <>
           <ChatWidget />
-          <NewUsersWidgets />
+          <NewUsersWidgets 
+            getListLastUsersAction={props.getListLastUsersAction}
+            data={props.info.listUsers}
+          />
           <NewGroupWidgets />
         </> }
     </div>
   )
 }
 
-export default Widgets
+
+const mapDispatchToProps = dispatch => ({
+  getListLastUsersAction: () => dispatch(getListLastUsersAction())
+})
+export default connect(store => ({info: store.info}), mapDispatchToProps)(Widgets)

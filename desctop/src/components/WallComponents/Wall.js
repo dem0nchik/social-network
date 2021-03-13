@@ -14,6 +14,7 @@ import {
   unlikePostAction
 } from '../../actions/postAction'
 import Skeleton from 'react-loading-skeleton';
+import { Redirect } from "react-router-dom";
 import { useInView } from 'react-intersection-observer';
 
 const Wall = (props) => {
@@ -37,14 +38,16 @@ const Wall = (props) => {
 
   useEffect(() => {
     const userId = props.pathname.slice(3)
-
+    
     if (props.pathname.includes('/id')) {
       props.getFirstPostUserAction(userId)
     }
   }, [])
 
   useEffect(() => {
-    if ( inView && (props.post.postsData.length < +props.post.totalCount) ) {
+    const countOfFetchingPost = 10
+    if ( inView && (props.post.postsData.length < +props.post.totalCount + countOfFetchingPost) &&
+    props.post.postsData.length >=10) {
       props.fetchingElsePostAction()
     }
   }, [props.post.postsData, inView])
@@ -70,15 +73,14 @@ const Wall = (props) => {
       />
     })
   }
-  
+
   return (
     <div className={styles.wall}>
-
       { !props.post.postFirstFetching ?
         <>
           { isUser && <WallPostAdd addNewPostUserAction={props.addNewPostUserAction}/> } 
           { 
-            props.post.postsData.length
+            props.post.postsData?.length
             ? <>
                 {
                   <>
