@@ -3,9 +3,11 @@ export const FRIEND_DATA_FAIL = 'USER_DELETE_IMG_REQUEST'
 export const FRIEND_DATA_FETCH = 'USER_DELETE_IMG_FAIL'
 
 export const NEW_FRIEND_REQUEST = 'NEW_FRIEND_REQUEST'
+export const NEW_FRIEND_SUCCESS = 'NEW_FRIEND_SUCCESS'
 export const NEW_FRIEND_FAIL = 'NEW_FRIEND_FAIL'
 
 export const DELETE_FRIEND_REQUEST = 'DELETE_FRIEND_REQUEST'
+export const DELETE_FRIEND_SUCCESS = 'DELETE_FRIEND_SUCCESS'
 export const DELETE_FRIEND_FAIL = 'DELETE_FRIEND_FAIL'
 
 export const GET_ALL_FRIEND_REQUEST = 'GET_ALL_FRIEND_REQUEST'
@@ -43,6 +45,10 @@ export const friendDataAction = (friendId) => {
 
 export const addNewFriendAction = (friendId) => {
   return (dispatch) => {
+    dispatch({
+      type: NEW_FRIEND_REQUEST,
+    })
+
     fetch(`${urlFriend}/user/${+friendId}`, {
         headers: {
           'Cache-Control': 'private, max-age=2592000'
@@ -52,7 +58,7 @@ export const addNewFriendAction = (friendId) => {
       })
       .then(response => response.json())
       .then(data => dispatch({
-        type: NEW_FRIEND_REQUEST,
+        type: NEW_FRIEND_SUCCESS,
         payload: data
       }))
       .catch(() => dispatch({
@@ -65,6 +71,10 @@ export const addNewFriendAction = (friendId) => {
 
 export const removeFriendAction = (friendId) => {
   return (dispatch) => {
+    dispatch({
+      type: DELETE_FRIEND_REQUEST,
+    })
+
     fetch(`${urlFriend}/user/${+friendId}`, {
         headers: {
           'Cache-Control': 'private, max-age=2592000'
@@ -74,7 +84,7 @@ export const removeFriendAction = (friendId) => {
       })
       .then(response => response.json())
       .then(data => dispatch({
-        type: DELETE_FRIEND_REQUEST,
+        type: DELETE_FRIEND_SUCCESS,
         payload: data
       }))
       .catch(() => dispatch({

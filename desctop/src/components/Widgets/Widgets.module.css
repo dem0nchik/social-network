@@ -1,5 +1,14 @@
 .widgets {
   width: 280px;
+  height: 920px;
+  overflow:  auto;
+}
+.widgets::-webkit-scrollbar {
+  width: 0px;
+}
+
+.widgets:last-child {
+  margin-bottom: 20px;
 }
 
 .group, .users {
@@ -22,25 +31,8 @@
   border-top: 1px solid rgba(222, 222, 222, 1);
   border-bottom-left-radius: 10px;
   overflow-y: scroll;
-  height: 249px !important;
   background: #fcfcfc;
 }
-.entity__wrap::-webkit-scrollbar {
-  width: 7px;
-  background-color: #f9f9fd;
-}
-
-.entity__wrap::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #464a4e;
-}
-
-.entity__wrap::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
-  border-radius: 10px;
-  background-color: #f9f9fd;
-}
-
 
 .chat {
   border-radius: 10px;
@@ -57,10 +49,10 @@
 }
 
 .entity__wrap {
-  border-top: 1px solid rgba(222, 222, 222, 1);
+  border-top: 1px solid rgba(19, 105, 131, 0.5);
   border-bottom-left-radius: 10px;
   overflow-y: scroll;
-  height: 269px;
+  height: 242px !important;
   background: #fcfcfc;
 }
 .entity__wrap::-webkit-scrollbar {
@@ -81,4 +73,10 @@
 
 .entity_nothing {
   text-align: center;
+}
+
+.description {
+  font-size: 14px;
+  margin: -5px 0 5px 10px;
+  color: #494949;
 }

@@ -22,16 +22,18 @@ import {
   ELSE_GET_POST_USER_FAIL,
   ELSE_GET_POST_USER_FETCHING,
 
-  FETCHING_ELSE_POST_USER
+  FETCHING_ELSE_POST_USER,
+  NEW_POST_USER_SUCCESS
 } from "../actions/postAction";
 
 const initialState = {
   error: '',
   postsData: [],
   postFirstFetching: true,
-  currentPage: 1,
+  currentPage: 2,
   postElseFetching: false,
   totalCount: 0,
+  fetchSentPost: false,
   err: ''
 }
 
@@ -40,13 +42,16 @@ let newPosts = null
 export function postReducer(state = initialState, action) {
   switch (action.type) {
     case NEW_POST_USER_REQUEST:
+      return {...state, fetchSentPost: true}
+
+    case NEW_POST_USER_SUCCESS:
       newPosts = state.postsData.slice(0)
       newPosts.unshift(action.payload)
-
-      return {...state, postsData: newPosts}
+      console.log(state);
+      return {...state, postsData: newPosts, fetchSentPost: false}
 
     case NEW_POST_USER_FAIL:
-      return {...state, error: action.payload}
+      return {...state, error: action.payload, fetchSentPost: false}
 
     case FIRST_GET_POST_USER_REQUEST:
       return {

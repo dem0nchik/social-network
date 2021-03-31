@@ -2,8 +2,35 @@
   padding: 10px;
   background-color: #fcfcfc;
   border: 2px solid rgba(222, 222, 222, 1);
-  border-bottom: 4px solid rgba(0, 11, 173, 0.4);
+  border-bottom: none;
   box-shadow: 3px 3px 10px rgb(37 37 37 / 20%);
+}
+
+.post_add_line {
+ background:rgba(0, 11, 173, 0.4);
+ box-shadow: 3px 3px 10px rgb(37 37 37 / 20%);
+ width: calc(100% - 4px);
+ margin: 0 auto;
+ height: 5px;
+}
+
+.post_add_line_fetch {
+  animation-name: fetch_post;
+  animation-timing-function: ease;
+  animation-duration: 4.5s;
+  box-shadow: 0 -200px 100px -120px rgba(41, 211, 188, 0.4) inset;
+  animation-iteration-count: infinite;
+  transform-origin: bottom;
+
+}
+
+@keyframes fetch_post {
+  0%   {  }
+  60%  { 
+    background: gold;
+    box-shadow: 0 -200px 100px -120px rgb(108, 75, 184) inset;
+  }
+  100% { }
 }
 
 .post_input_wrap textarea:focus {

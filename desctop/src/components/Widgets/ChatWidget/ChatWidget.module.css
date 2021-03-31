@@ -15,7 +15,7 @@
 }
 
 .entity__wrap {
-  border-top: 1px solid rgba(222, 222, 222, 1);
+  border-top: 1px solid rgba(19, 105, 131, 0.5);
   border-bottom-left-radius: 10px;
   overflow-y: scroll;
   height: 249px;
@@ -37,22 +37,27 @@
   background-color: #f9f9fd;
 }
 
-.entity {
+.entity_chat a {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   color: #333;
   background: #fcfcfc;
   padding: 5px 0;
   cursor: pointer;
-  border-bottom: 1px solid rgba(222, 222, 222, 0.3);
+  border-bottom: 1px solid rgba(222, 222, 222, 0.9);
+}
+
+.entity_chat:hover{
+  background: rgba(222, 222, 222, 0.5);
 }
 
 .entity:hover {
   background: rgba(222, 222, 222, 0.5);
 }
 
-.entity img{
+.entity_chat img{
   object-fit: cover;
   width: 40px;
   height: 40px;
@@ -64,16 +69,40 @@
 .entity__name {
   font-size: 14px;
   margin-left: 7px;
+  max-width: 170px;
 }
 
-.entity span {
+.entity_chat a span {
   font-size: 12px;
-  color: red;
   border-radius: 50%;
   margin-left: 5px;
   margin-top: -5px;
+  justify-self: end;
 }
 
 .entity_nothing {
   text-align: center;
+}
+
+.count {
+  margin: 5px;
+  margin-bottom: -2px;
+  background: #2d702e;
+  color: rgb(255, 255, 255);
+  padding: 3px 7px;
+  border-radius: 100%;
+}
+
+.online_icon::after {
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: #08b80a;
+  border: 1px solid #fcfcfc;
+  border-radius: 50%;
+  position: relative;
+  top: -13px;
+  left: 35px;
+  content: "";
+  margin-bottom: -10px;
 }

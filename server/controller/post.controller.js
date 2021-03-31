@@ -1,31 +1,36 @@
-const imagemin = require('imagemin')
-const imageminJpegoptim = require('imagemin-jpegoptim');
-const imageminPngquant = require('imagemin-pngquant')
 const db = require('../services/db')
 
-const S3Services = require('../services/S3')
+const imagemin = require('../services/imagemin')
+const sharp = require('sharp')
+const sizeOf = require('image-size')
+
+const GoogleDrive = require('../services/GoogleDrive')
 const { randomId, postDate } = require('../utilits/utilits')
 
 class postController {
 
-  async #addImagesToS3(images, uncompImages) {
+  async #addImagesToGoogleDrive(images, uncompImages) {
     try {
-      return new Promise(async (resolve, reject) => {
+      return new Promise(async (resolve) => {
         const imagesUrl = []
+        const mimeImg = {
+          gif: 'image/gif',
+          jpg: 'image/jpeg',
+          jpeg: 'image/jpeg',
+          png: 'image/png',
+          svg: 'image/svg+xml',
+        }
 
         for (let i = 0; i < images.length; i++) {
           const splitedFile = uncompImages[i].name.toLowerCase().split('.')
           const fileType = splitedFile[splitedFile.length-1]
           const name = `${randomId()}.${fileType}`.toLowerCase()
 
-          const imgUrl = `${process.env.API_URL}/api/file/post/img/${name}`
+          const imgFile = await GoogleDrive.uploadFile(`post/img/${name}`, images[i], mimeImg[fileType])
+          const imgUrl = `${process.env.API_URL}/api/file/post/img/${imgFile.id}.${fileType}`
           imagesUrl.push(imgUrl)
-
-          const sentData = data => {
-            resolve({data, imagesUrl})
-          }
-          await S3Services.uploadFile(`post/img/${name}`, images[i], sentData)
         }
+        resolve({ imagesUrl })
       })
     } catch (error) {
       console.error(error)
@@ -61,6 +66,64 @@ class postController {
     }
   }
 
+  async #resizePhoto(bufferImg, width, height) {
+    try {
+      return new Promise(async (resolve) => {
+        await sharp(bufferImg)
+          .resize(width, height)
+          .toBuffer()
+          .then( data => {
+            resolve(data)
+          })
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async #toImagePost(bufferImg) {
+    try {
+      const SIZE_TRIGER_IMG = 1280
+      const lesserSize = 40
+      const secondarySize = 640
+      const dimensions = sizeOf(bufferImg)
+
+      const minifizeAndResize = async (bufferImgToModify, width, height) => {
+        const fileMin = await imagemin.minifizeImg(bufferImgToModify, 80)
+        return await this.#resizePhoto(fileMin, width, height)
+      }
+
+      return new Promise(async (resolve, reject) => {
+        if (dimensions.width < lesserSize || dimensions.height < lesserSize) {
+          reject('inappropriate noone of size')
+        }
+
+        if(dimensions.height === dimensions.width && dimensions.width > secondarySize) {
+          resolve(await minifizeAndResize(bufferImg, secondarySize, secondarySize))
+        }
+
+        const lesserSide = Math.min(dimensions.width, dimensions.height)
+        const wideSide = Math.max(dimensions.width, dimensions.height)
+
+        if (wideSide > SIZE_TRIGER_IMG) {
+          const coefficient = wideSide / SIZE_TRIGER_IMG
+          const sideToMini = Math.floor(lesserSide / coefficient)
+
+          if(wideSide === dimensions.width) {
+            resolve(await minifizeAndResize(bufferImg, SIZE_TRIGER_IMG, sideToMini)) 
+          }
+          else {
+            resolve(await minifizeAndResize(bufferImg, sideToMini, SIZE_TRIGER_IMG))
+          }
+        } else {
+          resolve(await minifizeAndResize(bufferImg, dimensions.width, dimensions.height))
+        }
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   async addNewPostUser(req, res) {
     if (req.session.idUserSession) {
@@ -70,36 +133,23 @@ class postController {
         const files = req.files || null
         const textBody = req.body ? req.body.textBody : ''
         let compresedImage = []
-
+        
         if (files) {
           for (let i = 0; i < Object.values(files).length; i++) {
             const element = files[`file${i}`]
-
-            compresedImage.push(
-              imagemin.buffer(element.data, {
-                plugins: [
-                imageminJpegoptim({progressive: true, max: 55}),
-                imageminPngquant({
-                      quality: [0.6, 0.8]
-                  })
-                ]
-              })
-            )
+            compresedImage.push(await this.#toImagePost(element.data))
           }
 
           Promise.all(compresedImage).then(async (images) => {
-            const sentedImages = await this.#addImagesToS3(images, Object.values(files))
-            const {data, imagesUrl} = await sentedImages
+            const { imagesUrl } = await this.#addImagesToGoogleDrive(images, Object.values(files))
             const addedPost = await this.#addPostDataInDB(userId, textBody)
             const postId = addedPost.rows[0].post_id
             await this.#addPostImagesInDB(postId, imagesUrl)
-
-            if (data) {
-              await this.#getOnePostUserInDB(postId, userId)
-                .then(getPost => {
-                  res.json(getPost)
-                })
-            }
+            
+            await this.#getOnePostUserInDB(postId, userId)
+              .then(getPost => {
+                res.json(getPost)
+              })
           })
         } else {
           const addedPost = await this.#addPostDataInDB(userId, textBody)
@@ -147,7 +197,7 @@ class postController {
   async #getOnePostUserInDB(postId, userId) {
     try {
       const post =  await db.query(
-        `SELECT u.name, u.surname, u.profile_img, p.post_id, p.likes_count, p.date, p.text FROM post p
+        `SELECT u.name, u.surname, u.profile_mini_img, p.post_id, p.likes_count, p.date, p.text FROM post p
         LEFT JOIN users u ON p.post_id = $1
         WHERE u.id = p.user_id`,
           [postId]
@@ -158,8 +208,8 @@ class postController {
       const postAndUserData = post.rows[0]
       return {
         name: `${postAndUserData.name} ${postAndUserData.surname}`,
-        profileImg: postAndUserData.profile_img,
-        date: postDate(postAndUserData.date.toISOString()),
+        profileImg: postAndUserData.profile_mini_img,
+        date: postAndUserData.date,
         heartCount: commentAndLikesAndImagesData.likesCount.rows[0].count,
         bodyText: postAndUserData.text,
         images: commentAndLikesAndImagesData.arrayImages,
@@ -197,7 +247,7 @@ class postController {
     try {
       const countLimitPosts = 10
       return await db.query(
-        `SELECT u.name, u.surname, u.profile_img, p.post_id, p.likes_count, p.date, p.text FROM post p
+        `SELECT u.name, u.surname, u.profile_mini_img, p.post_id, p.likes_count, p.date, p.text FROM post p
         LEFT JOIN users u ON p.user_id = $1
         WHERE u.id = p.user_id
         ORDER BY p.date DESC
@@ -228,7 +278,7 @@ class postController {
   async #getLimitCommentsPostFromDB(postID) {
     try {
       return await db.query(
-        `SELECT u.name, u.surname, u.profile_img, u.id, c.date_created, c.text FROM comments c
+        `SELECT u.name, u.surname, u.profile_mini_img, u.id, c.date_created, c.text FROM comments c
         LEFT JOIN users u ON c.user_id = u.id
             LEFT JOIN post p ON p.post_id = $1
             WHERE p.post_id = c.post_id
@@ -284,10 +334,10 @@ class postController {
     if(commentsArray.length) {
       return commentsArray.map(comment => {
         return {
-          profileImg: comment.profile_img,
+          profileImg: comment.profile_mini_img,
           bodyText: comment.text,
           name: `${comment.name} ${comment.surname}`,
-          date: postDate(comment.date_created.toISOString()),
+          date: comment.date_created,
           userId: comment.id
         }
       })
@@ -302,7 +352,11 @@ class postController {
       const sessionId = +req.session.idUserSession
       const currentPage = +req.query.page
 
-      if (Number.isInteger(userId) && Number.isInteger(currentPage) && currentPage >= 1) {
+      if (Number.isInteger(userId) 
+        && Number.isInteger(sessionId) 
+        && Number.isInteger(currentPage) 
+        && currentPage >= 1) 
+      {
         const countPosts = currentPage * 10
         const userPostsFromDB = await this.#getUserPostsFromDB(userId, countPosts)
 
@@ -315,7 +369,7 @@ class postController {
 
             return {
               name: `${post.name} ${post.surname}`,
-              profileImg: post.profile_img,
+              profileImg: post.profile_mini_img,
               date: postDate(post.date.toISOString()),
               heartCount: postData.likesCount.rows[0].count,
               bodyText: post.text,
@@ -335,7 +389,7 @@ class postController {
             res.json(posts)
           })
         } else {
-          res.status(404).json({err: 'not found'})
+          res.json({err: 'not found', posts: []})
         }
       } else {
         res.status(404).json({err: 'incorect user id'})
@@ -420,7 +474,7 @@ class postController {
 
   async #getLustCommentToPostInDB(postId) {
     try {
-      return await db.query(`SELECT u.name, u.surname, u.id, u.profile_img, c.date_created, c.text FROM comments c
+      return await db.query(`SELECT u.name, u.surname, u.id, u.profile_mini_img, c.date_created, c.text FROM comments c
       LEFT JOIN users u ON c.user_id = u.id
           LEFT JOIN post p ON p.post_id = $1
           WHERE p.post_id = c.post_id
@@ -445,7 +499,7 @@ class postController {
           const currentCom = getComment.rows[0]
           
           const comment = {
-            profileImg: currentCom.profile_img,
+            profileImg: currentCom.profile_mini_img,
             bodyText: currentCom.text,
             name: `${currentCom.name} ${currentCom.surname}`,
             date: postDate(currentCom.date_created.toISOString()),
@@ -472,7 +526,7 @@ class postController {
       
       if (Number.isInteger(postId)) {
         const moreComments = await db.query(
-          `SELECT u.name, u.surname, u.profile_img, u.id, c.date_created, c.text FROM comments c
+          `SELECT u.name, u.surname, u.profile_mini_img, u.id, c.date_created, c.text FROM comments c
           LEFT JOIN users u ON c.user_id = u.id
               LEFT JOIN post p ON p.post_id = $1
               WHERE p.post_id = c.post_id

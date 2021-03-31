@@ -1,30 +1,36 @@
 require('dotenv').config()
-const express = require('express')
-const cors = require('cors')
-const session = require('express-session')
-const upload = require('express-fileupload');
 
-const sessionConfig = require('./services/sessionConfig')
+const express = require('express')
+const app = express()
+const http = require('http').createServer(app)
+
+const socketioConfig = require('./socketio/socketioConfig')
+const io = require('socket.io')(http, socketioConfig)
+
+const cors = require('cors')
+const upload = require('express-fileupload')
+
+const sessionMiddleware = require('./services/sessionMiddleware')
 const routes = require('./routes')
+
+const socketConnection = require('./socketio/socketConnection')
 
 const PORT = process.env.PORT || 8080
 const HOST = process.env.HOST || 'localhost'
-const app = express()
 
-
-app.use(session(sessionConfig))
+app.use(sessionMiddleware)
 
 app.use(express.json())
 app.use(upload())
-
 app.use(cors({origin: process.env.BASE_URL, credentials: true}))
 
-app.use('/api', routes.autorizeRouter)
-app.use('/api', routes.userRouter)
-app.use('/api', routes.s3FileRouter)
-app.use('/api', routes.postRouter)
-app.use('/api', routes.friendRouter)
-app.use('/api', routes.infoRouter)
+app.use('/api', routes)
 
 
-app.listen(PORT, HOST, () => console.log('Server is run on ', HOST + ':' + PORT))
+io.use((socket, next) => {
+  sessionMiddleware(socket.request, {}, next)
+})
+
+io.on('connection', socketConnection)
+
+http.listen(PORT, HOST, () => console.log('Server is run on ', HOST + ':' + PORT))

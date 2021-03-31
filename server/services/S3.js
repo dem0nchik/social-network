@@ -9,16 +9,19 @@ const s3 = new AWS.S3({
 
 class S3Services {
 
-  async uploadFile (fileName, fileBody, fetchUploadFile) {    
+  async uploadFile (fileName, fileBody) {    
     const params = {
         Bucket: process.env.AWS_BUCKET_NAME,
         Key: fileName,
         Body: fileBody
     }
     try {
-      await s3.upload(params, (err, data) => {
-        if (err) {throw err}
-        fetchUploadFile(data)
+      return new Promise(async (resolve, reject) => {
+        await s3.upload(params, (err, data) => {
+          if (err) reject(err)
+
+          resolve(data)
+        })        
       })
     } catch (error) {
       console.error(error);
@@ -27,16 +30,20 @@ class S3Services {
     
   }
 
-  async deleteFile (fileName, fetchDeleteFile) {
+  async deleteFile (fileName) {
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: fileName
     };
     try {
-      s3.deleteObject(params, (err, data) => {
-        if (err) {throw err}
-        fetchDeleteFile(fileName, data)
+      return new Promise(async (resolve, reject) => {
+        s3.deleteObject(params, (err, data) => {
+          if (err) reject(err)
+
+          resolve(data)
+        })
       })
+      
     } catch (error) {
       console.error(error);
       if (error) {return new Error(error)}

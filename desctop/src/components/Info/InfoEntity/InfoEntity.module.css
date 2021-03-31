@@ -59,15 +59,21 @@
 .name_entity {
   padding-left: 5px;
 }
-
-.group h3 {
+.group h3{
   margin-bottom: 5px;
+}
+.group h3 a{
   font-weight: 500;
   padding-left: 7px;
   font-size: 16px;
   color: #333;
   font-weight: 600;
 }
+
+.title_link {
+  display: flex;
+}
+
 
 .more {
   align-self: flex-end;
@@ -132,6 +138,11 @@
   transform-origin: bottom;
   animation-name: create_link;
 }
+
+.link_view_all {
+  padding: 10px !important;
+}
+
 @keyframes create_link {
   0%   { transform: translateY(0); }
   60%  { transform: translateY(-2px); }

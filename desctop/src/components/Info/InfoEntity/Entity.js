@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './InfoEntity.module.css'
 
 const Entity = props => {
-  const imageEntity = props.data?.profileImg || "/public/img/user_icon.png"
+  const imageEntity = props.data?.profileImg || "/public/img/user_icon.jpg"
 
   const nameEntity = () => {
     if (props.data.name) {

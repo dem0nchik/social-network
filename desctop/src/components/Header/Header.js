@@ -18,7 +18,7 @@ const Header = (props) => {
           ? <>
               <nav className={styles.navigation}>
                 <ul>
-                  <li><a href="/chat">Чаты</a></li>
+                  <li><a href="/chats">Чаты</a></li>
                   <li><a href="/group">Групы</a></li>
                   <li><a href="/friend">Друзья</a></li>
                 </ul>

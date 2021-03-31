@@ -55,3 +55,8 @@
 .button_remove:hover {
   background: rgba(244, 244, 244, 0.7);
 }
+
+
+.info_avatar__img {
+  cursor: pointer;
+}

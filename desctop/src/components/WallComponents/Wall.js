@@ -51,17 +51,20 @@ const Wall = (props) => {
 
   useEffect(() => {
     const countOfFetchingPost = 10
-    if ( inView && (props.post.postsData.length < +props.post.totalCount + countOfFetchingPost) &&
-    props.post.postsData.length >=10) {
+    if ( inView && (props.post.postsData.length < +props.post.totalCount + countOfFetchingPost) 
+      && props.post.postsData.length >= countOfFetchingPost
+      && Math.ceil(props.post.totalCount / countOfFetchingPost) >= props.post.currentPage) {
       props.fetchingElsePostAction()
     }
-  }, [props.post.postsData, inView])
+  }, [inView])
 
   useEffect(() => {
-    if(props.post.postElseFetching) {
-      props.getElsePostUserAction(props.pathname.slice(3), props.post.currentPage)
+    if(props.post.postElseFetching) {           
+      if( Math.ceil(props.post.totalCount / 10) >= props.post.currentPage ) {
+        props.getElsePostUserAction(props.pathname.slice(3), props.post.currentPage)
+      }
     }
-  }, [props.post.postElseFetching])
+  }, [props.post.postElseFetching, props.post.currentPage])
 
   const handlePhoto = (list, index) => {
     setPhotoToView({list, currentIndex: index, show: true})
@@ -84,6 +87,7 @@ const Wall = (props) => {
     })
   }
 
+
   return (
     <div className={styles.wall}>
       {
@@ -97,7 +101,10 @@ const Wall = (props) => {
 
       { !props.post.postFirstFetching ?
         <>
-          { isUser && <WallPostAdd addNewPostUserAction={props.addNewPostUserAction}/> } 
+          { isUser && <WallPostAdd 
+              addNewPostUserAction={props.addNewPostUserAction}
+              fetchSentPost={props.post.fetchSentPost}
+            /> } 
           { 
             props.post.postsData?.length
             ? <>
@@ -123,11 +130,14 @@ const Wall = (props) => {
 
 const mapDispatchToProps = dispatch => ({
   addNewPostUserAction: (postData) => dispatch(addNewPostUserAction(postData)),
+
   getFirstPostUserAction: (userId) => dispatch(getFirstPostUserAction(userId)),
   getElsePostUserAction: (userId, currentPage) => dispatch(getElsePostUserAction(userId, currentPage)),
   fetchingElsePostAction: () => dispatch(fetchingElsePostAction()),
+
   likePostAction: (postId) => dispatch(likePostAction(postId)),
   unlikePostAction: (postId) => dispatch(unlikePostAction(postId)),
+
   getMoreCommentToPostAction: (postId) => dispatch(getMoreCommentToPostAction(postId)),
   addNewCommentToPostAction: 
     (commentData, postId) => 

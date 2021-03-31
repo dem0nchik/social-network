@@ -47,7 +47,9 @@ const InfoEntity = (props) => {
     } else if (props.whatEntity === whatEntity.friend) {
       return <>
         <div className={`${styles.button_wrap} ${styles.button_add}`}>
-          <button>Добавить Друзей</button>
+          <a className={styles.link_view_all} href="/view?view=all">
+            Добавить Друзей
+          </a>
         </div>
       </>
     }
@@ -57,13 +59,19 @@ const InfoEntity = (props) => {
     if (props.whatEntity === whatEntity.group) {
       return `Групп ${props.data.length}`
     } else if (props.whatEntity === whatEntity.friend) {
-      return `Друзей ${props.data.length}`
+      return `Друзей ${props.count}`
     }
   }
   
   return (
         <div className={styles.group}>
-          <h3>{titleReturn()}</h3>
+         <div className={styles.title_link}>
+           <h3>
+             <a  href={linkToView()}>
+              {titleReturn()}
+             </a>
+            </h3>
+          </div>
 
           <div className={styles.wrap_entity}>
             {renderTemplateEntity()}

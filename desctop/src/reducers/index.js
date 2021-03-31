@@ -4,6 +4,7 @@ import { userReducer } from "./userReducer";
 import { postReducer } from "./postReducer";
 import { friendReducer } from "./friendReducer";
 import { infoReducer } from "./infoReducer";
+import { chatReducer } from "./chatReducer";
 
 export const rootReducer = combineReducers({
   autorize: autorizeReducer,
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
   post: postReducer,
   friend: friendReducer,
   info: infoReducer,
+  chat: chatReducer
 })

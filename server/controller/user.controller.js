@@ -1,33 +1,27 @@
 require('dotenv').config()
 const db = require('../services/db')
-const S3Services = require('../services/S3')
+const GoogleDrive = require('../services/GoogleDrive')
 
-const imagemin = require('imagemin');
-const imageminJpegoptim = require('imagemin-jpegoptim');
-const imageminPngquant = require('imagemin-pngquant');
+const imagemin = require('../services/imagemin')
+const sharp = require('sharp')
+const sizeOf = require('image-size')
 
 const { randomId } = require('../utilits/utilits')
 
 
 const _checkExistsUserImg = async (id) => {
   try {
-    return await db.query(`SELECT profile_img FROM users WHERE id = $1`, [id])
+    return await db.query(`SELECT profile_img, profile_mini_img FROM users WHERE id = $1`, [id])
   } catch (err) {
     console.error(err);
     return new Error(err)
   }
 }
-const _addUserImgInDB = async (imgUrl, id) => {
+const _addUserImgInDB = async (imgUrl, imgMiniUrl, id) => {
   try {
-    return await db.query(`UPDATE users SET profile_img = $1 WHERE id = $2`, [imgUrl, id])
-  } catch (err) {
-    console.error(err);
-    return new Error(err)
-  }
-}
-const _deleteUserImgS3 = async (img, fetchDeleteFile) => {
-  try {
-    await S3Services.deleteFile(img, fetchDeleteFile)
+    return await db.query(`UPDATE users 
+      SET profile_img = $1, profile_mini_img = $2
+      WHERE id = $3`, [imgUrl, imgMiniUrl, id])
   } catch (err) {
     console.error(err);
     return new Error(err)
@@ -38,7 +32,7 @@ class UserController {
   async #getLimitFriendsUserFromDB(userId) {
     try {
       return await db.query(
-        `SELECT u.profile_img, u.name, u.surname, u.id FROM friend_people fp
+        `SELECT u.profile_mini_img, u.name, u.surname, u.id FROM friend_people fp
           INNER JOIN friends f ON f.f_id = fp.f_id
           INNER JOIN users u ON fp.friend = u.id
           WHERE f.user_id = $1
@@ -70,13 +64,58 @@ class UserController {
     if(friendsArray.length) {
       return friendsArray.map(friend => {
         return {
-          profileImg: friend.profile_img,
+          profileImg: friend.profile_mini_img,
           name: `${friend.name} ${friend.surname}`,
           link: `/id${friend.id}`
         }
       })
     } else {
       return friendsArray
+    }
+  }
+
+  async #resizePhoto(bufferImg, width, height) {
+    try {
+      return new Promise(async (resolve) => {
+        await sharp(bufferImg)
+          .resize(width, height)
+          .toBuffer()
+          .then( data => {
+            resolve(data)
+          })
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async #toImageProfile(bufferImg, requiredSizeImage) {
+    try {
+      const SIZE_MINI_IMG = 40
+      const dimensions = sizeOf(bufferImg)
+
+      return new Promise(async (resolve, reject) => {
+        if (dimensions.width < SIZE_MINI_IMG || dimensions.height < SIZE_MINI_IMG) {
+          reject('inappropriate noone of size')
+        }
+
+        const lesserSide = Math.min(dimensions.width, dimensions.height)
+        const wideSide = Math.max(dimensions.width, dimensions.height)
+  
+        const coefficient = lesserSide / requiredSizeImage
+        const sideToMini = Math.floor(wideSide / coefficient)
+  
+        if(wideSide === dimensions.width) {
+          const fileMin = await imagemin.minifizeImg(bufferImg, 100)
+          resolve(await this.#resizePhoto(fileMin, requiredSizeImage, sideToMini))          
+        }
+        else {
+          const fileMin = await imagemin.minifizeImg(bufferImg, 100)
+          resolve(await this.#resizePhoto(fileMin, sideToMini, requiredSizeImage))
+        }
+      })
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -119,46 +158,57 @@ class UserController {
       const fileType = splitedFile[splitedFile.length-1]
       const name = `${randomId()}.${fileType}`
       const userId = req.session.idUserSession
+      const mimeImg = {
+        gif: 'image/gif',
+        jpg: 'image/jpeg',
+        jpeg: 'image/jpeg',
+        png: 'image/png',
+        svg: 'image/svg+xml',
+      }
       
       try {
         let isImgUpdate = false
+        
+        const miniImg = await this.#toImageProfile(file.data, 40)
+        const wideImage = await this.#toImageProfile(file.data, 250)
 
-        const fileMin = await imagemin.buffer(file.data, {
-          plugins: [
-            imageminJpegoptim({progressive: true, max: 45}),
-            imageminPngquant({
-                quality: [0.6, 0.8]
-            })
-        ]})
-
-        const fetchDeleteFile = async () => {
-          await S3Services.uploadFile(`pimg/${name}`, fileMin, requestUploadStatus)
+        
+        const requestUploadStatus = async (imgMiniId, imgId) => {
+          const imgUrl = `${process.env.API_URL}/api/file/pimg/${imgId}.${fileType}`
+          const imgMiniUrl = `${process.env.API_URL}/api/file/pimg/mini_${imgMiniId}.${fileType}`
+          await _addUserImgInDB(imgUrl, imgMiniUrl, userId)
+          
+          res.json({ profile_img: imgUrl })
         }
 
         const userImg = await _checkExistsUserImg(userId)
+        
         if (userImg.rows[0].profile_img === null) {
           isImgUpdate = true
         } else {
           const profileImg = userImg.rows[0].profile_img
-          const imgPath = profileImg.substring(profileImg.indexOf('pimg'))
+          const profileMiniImg = userImg.rows[0].profile_mini_img
           
-          await _deleteUserImgS3(imgPath, fetchDeleteFile)
-        }
+          const fileId = profileImg.substring(profileImg.indexOf('pimg/')+'pimg/'.length).split('.')[0]
+          const fileMiniId = profileMiniImg.substring(profileMiniImg.indexOf('pimg/')+'pimg/mini_'.length).split('.')[0]
+          
+          await GoogleDrive.deleteFile(fileId)
+          await GoogleDrive.deleteFile(fileMiniId)
 
-        const requestUploadStatus = async (data) => {
-          if(data) {
-            const imgUrl = `${process.env.API_URL}/api/file/pimg/${name}`
-            await _addUserImgInDB(imgUrl, userId)
-            
-            res.json({ profile_img: imgUrl })
-          }
+          const miniImgFile = await GoogleDrive.uploadFile(`pimg/mini_${name}`, miniImg, mimeImg[fileType])
+          const wideImgFile = await GoogleDrive.uploadFile(`pimg/${name}`, wideImage, mimeImg[fileType])
+          
+          await requestUploadStatus(miniImgFile.id, wideImgFile.id)
         }
 
         if (isImgUpdate) {
-          await S3Services.uploadFile(`pimg/${name}`, fileMin, requestUploadStatus)
+          const miniImgFile = await GoogleDrive.uploadFile(`pimg/mini_${name}`, miniImg, mimeImg[fileType])
+          const wideImgFile = await GoogleDrive.uploadFile(`pimg/${name}`, wideImage, mimeImg[fileType])
+          
+          await requestUploadStatus(miniImgFile.id, wideImgFile.id)
         }
       } catch (error) {
-        console.error(error);
+        console.error(error)
         res.status(500).end()
         return new Error(error)        
       }
@@ -172,17 +222,23 @@ class UserController {
     try {
       const userId = req.session.idUserSession      
       const userImg = await _checkExistsUserImg(userId)
-      const profileImg = userImg.rows[0].profile_img
-      const imgPath = profileImg.substring(profileImg.indexOf('pimg'))
-      
-      
-      const fetchDeleteFile = async () => {
-        await _addUserImgInDB(null, userId)
 
-        res.json({ profile_img: null })
+      const profileImg = userImg.rows[0].profile_img
+      const profileMiniImg = userImg.rows[0].profile_mini_img
+      
+      if (!!profileImg) {
+        const fileId = profileImg.substring(profileImg.indexOf('pimg/')+'pimg/'.length).split('.')[0]
+        await GoogleDrive.deleteFile(fileId)
       }
       
-      await _deleteUserImgS3(imgPath, fetchDeleteFile)
+      if (!!profileMiniImg) {
+        const fileMiniId = profileMiniImg.substring(profileMiniImg.indexOf('pimg/')+'pimg/mini_'.length).split('.')[0]
+        await GoogleDrive.deleteFile(fileMiniId)
+      }
+      
+      await _addUserImgInDB(null, null, userId)
+
+      res.json({ profile_img: null })
     } catch (error) {
       console.error(error);
       res.status(500).end()

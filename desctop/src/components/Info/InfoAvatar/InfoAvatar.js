@@ -14,7 +14,13 @@ const InfoAvatar = (props) => {
     }
   }
 
-  const imageProfile = props.profileImg || "/public/img/user_icon.png"
+  const imageProfile = props.profileImg || "/public/img/user_icon.jpg"
+
+  const handlePhoto = () => {
+    if (imageProfile !== "/public/img/user_icon.jpg"){
+      props.viewPhoto()
+    }
+  }
   
   return (
     <div 
@@ -22,7 +28,12 @@ const InfoAvatar = (props) => {
       onMouseEnter={handleMouseMove}
       onMouseLeave={handleMouseMove}
     >
-      <img src={imageProfile} alt="Фото профиля"/>
+      <img 
+        src={imageProfile} 
+        className={styles.info_avatar__img}
+        alt="Фото профиля"
+        onClick={() => handlePhoto()}
+      />
 
       { props.isUserProfile &&
         <div 

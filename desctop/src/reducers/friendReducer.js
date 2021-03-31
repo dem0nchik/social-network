@@ -1,13 +1,15 @@
 import { 
   DELETE_FRIEND_FAIL,
   DELETE_FRIEND_REQUEST,
+  DELETE_FRIEND_SUCCESS,
   FRIEND_DATA_FAIL, 
   FRIEND_DATA_FETCH, 
   FRIEND_DATA_REQUEST, 
   GET_ALL_FRIEND_FAIL, 
   GET_ALL_FRIEND_REQUEST, 
   NEW_FRIEND_FAIL, 
-  NEW_FRIEND_REQUEST
+  NEW_FRIEND_REQUEST,
+  NEW_FRIEND_SUCCESS
 } from "../actions/friendAction";
 
 const initialState = {
@@ -21,6 +23,7 @@ const initialState = {
     list: [],
     count: 0
   },
+  fetchAddingAndRemove: false,
   error: ''
 }
 
@@ -48,30 +51,44 @@ export function friendReducer(state = initialState, action) {
         return {...state, isFriendDataFetching: false}
 
     case NEW_FRIEND_REQUEST:
+        return {...state, fetchAddingAndRemove: true}
+
+    case NEW_FRIEND_SUCCESS:
       return {
         ...state, 
         isActiveFriend: action.payload.active,
         friendList: {
           list: action.payload.friendList.list,
           count: action.payload.friendList.count
-        }
+        },
+        fetchAddingAndRemove: false
       }
 
     case NEW_FRIEND_FAIL:
-      return {...state, error: action.payload}
+      return {
+        ...state, error: action.payload,
+        fetchAddingAndRemove: false
+      }
 
     case DELETE_FRIEND_REQUEST:
+      return {...state, fetchAddingAndRemove: true}
+
+    case DELETE_FRIEND_SUCCESS:
       return {
         ...state, 
         isActiveFriend: action.payload.active,
         friendList: {
           list: action.payload.friendList.list,
           count: action.payload.friendList.count
-        }
+        },
+        fetchAddingAndRemove: false
       }
 
     case DELETE_FRIEND_FAIL:
-      return {...state, error: action.payload}
+      return {
+        ...state, error: action.payload,
+        fetchAddingAndRemove: false
+      }
 
     case GET_ALL_FRIEND_REQUEST:
       return {
