@@ -35,7 +35,8 @@ const NewUsersWidgets = (props) => {
   
   return (
     <div className={styles.users}>
-      <a className={styles.title} href="/view?user=new"><h3 >Новые Пользователи</h3></a>
+      <a className={styles.title} href="/view?user=new"><h3>Новые Пользователи</h3></a>
+      <p className={styles.description}>последние 10</p>
 
       <div className={styles.entity__wrap}>
         {

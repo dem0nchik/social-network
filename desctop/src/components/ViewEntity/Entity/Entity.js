@@ -2,7 +2,7 @@ import React from 'react'
 import styles from '../ViewEntity.module.css'
 
 const Entity = (props) => {
-  const imageEntity = props.profileImg || "/public/img/user_icon.png"
+  const imageEntity = props.profileImg || "/public/img/user_icon.jpg"
 
   return (
     <div className={styles.entity}>

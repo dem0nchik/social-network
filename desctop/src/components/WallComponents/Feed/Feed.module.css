@@ -1,5 +1,10 @@
 .feed {
   width: 665px;
-  background: hotpink;
+  background-color: #333;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   margin-right: 15px;
 }

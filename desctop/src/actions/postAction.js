@@ -1,4 +1,5 @@
 export const NEW_POST_USER_REQUEST = 'NEW_POST_USER_REQUEST'
+export const NEW_POST_USER_SUCCESS = 'NEW_POST_USER_SUCCESS'
 export const NEW_POST_USER_FAIL = 'NEW_POST_USER_FAIL'
 
 export const FIRST_GET_POST_USER_REQUEST = 'FIRST_GET_POST_USER_REQUEST'
@@ -29,6 +30,10 @@ const urlPost = config.API_URL +'/api/post'
 
 export const addNewPostUserAction = (postData) => {
   return (dispatch) => {
+    dispatch({
+      type: NEW_POST_USER_REQUEST,
+    })
+
     fetch(`${urlPost}/add/user`, {
         headers: {
           'Cache-Control': 'private, max-age=2592000'
@@ -39,7 +44,7 @@ export const addNewPostUserAction = (postData) => {
       })
       .then(response => response.json())
       .then(data => dispatch({
-        type: NEW_POST_USER_REQUEST,
+        type: NEW_POST_USER_SUCCESS,
         payload: data
       }))
       .catch(() => dispatch({

@@ -10,21 +10,37 @@
   margin-left: 15px;
 }
 
-.photos {
+.info_photos_desc {
+  color: #444;
+  font-size: 14px;
+  text-align: center;
+}
+
+.info_button_photos {
+  margin-top: -17px;
   display: flex;
   flex-direction: row;
   align-items: center;
   color: rgb(15, 20, 25);
   text-decoration: none;
+  background: transparent;
+  border: none;
 }
-.photos p{
+.info_button_photos p{
   margin-left: 10px;
 }
 
-.photos svg{ 
+.info_button_photos svg{ 
     width: 35px;
     height: 35px;
     fill: rgb(15, 20, 25);
+}
+
+.info_button_photos[disabled] svg{
+  fill: rgb(133, 133, 133);
+}
+.info_button_photos[disabled]{
+  cursor: default;
 }
 
 
@@ -96,6 +112,11 @@
 
 .button_wrap button:active {
   background: rgba(232, 232, 232, 0.2);
+}
+
+.button_add[disabled] {
+  background: rgba(212, 212, 212, 1) !important;
+  cursor: default;
 }
 
 .no_found {

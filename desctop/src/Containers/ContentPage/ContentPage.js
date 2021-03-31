@@ -58,7 +58,7 @@ const ContentPage = (props) => {
         /> 
       }
       if (hasLocation(['/chat'], props.location.pathname)) {
-        return <Chat />
+        return <Chat pathname={props.location.pathname}/>
       }
     }
     if (hasLocation(['/id', '/group'], props.location.pathname)) {

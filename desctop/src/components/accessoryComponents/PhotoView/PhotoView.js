@@ -35,7 +35,7 @@ const PhotoView = (props) => {
   const handleClose = (e) => {
     props.close()
   }
-  console.log(currentIndex);
+  
   return (
     <div className={styles.photoview}>
       <div className={styles.overlay} onClick={handleClose}></div>
@@ -44,21 +44,28 @@ const PhotoView = (props) => {
         <p className={styles.close} onClick={handleClose}>X</p>
 
         <div className={styles.photo_wrap}>
-          <div 
-            className={styles.image_arrow_left}
-            onClick={handleArrowLeft}
-          ></div>
-          <div 
-            className={styles.image_arrow_right}
-            onClick={handleArrowRight}            
-          ></div>
+          { props.list.length > 1 &&
+            <>
+              <div 
+                className={styles.image_arrow_left}
+                onClick={handleArrowLeft}
+              ></div>
+              <div 
+                className={styles.image_arrow_right}
+                onClick={handleArrowRight}            
+              ></div>
+            </>
+          }
 
           <div className={styles.main_image_wrap}>
             <img src={currentImage} alt=""/>
           </div>
 
-          <div className={styles.count_images}>
-            <p>{`${currentIndex+1} из ${props.list.length}`}</p>
+          <div className={styles.photoview_info}>
+            <div className={styles.count_images}>
+              <p>{`${currentIndex+1} из ${props.list.length}`}</p>
+            </div>
+            <a href={currentImage} download target='_blank'>открыть оригинал</a>
           </div>
         </div>          
       </div>

@@ -20,7 +20,6 @@ class friendController {
 
   async #addingNewFriends(friendId, userId) {
     try {
-      
       await this.#checkUserInFriendsTable(userId)
       await this.#checkUserInFriendsTable(friendId)
 
@@ -30,7 +29,7 @@ class friendController {
         )
       await db.query(
         `INSERT INTO friend_people(f_id, friend, active) 
-        VALUES ((SELECT f_id FROM friends WHERE user_id = $2), $1, true);`, [userId, friendId]
+        VALUES ((SELECT f_id FROM friends WHERE user_id = $2), $1, true)`, [userId, friendId]
         )
     } catch (err) {
       console.error(err)
@@ -43,14 +42,14 @@ class friendController {
       await db.query(
         `DELETE FROM friend_people fp WHERE 
         (SELECT fp.f_id FROM friend_people fp
-              INNER JOIN friends f ON f.f_id = fp.f_id
-              WHERE f.user_id = $1 AND fp.friend = $2) = fp.f_id`, [userId, friendId]
+              RIGHT JOIN friends f ON f.f_id = fp.f_id
+              WHERE f.user_id = $1 AND fp.friend = $2) = fp.f_id AND fp.friend = $2`, [userId, friendId]
         )
       await db.query(
         `DELETE FROM friend_people fp WHERE 
         (SELECT fp.f_id FROM friend_people fp
-              INNER JOIN friends f ON f.f_id = fp.f_id
-              WHERE f.user_id = $2 AND fp.friend = $1) = fp.f_id`, [userId, friendId]
+              RIGHT JOIN friends f ON f.f_id = fp.f_id
+              WHERE f.user_id = $2 AND fp.friend = $1) = fp.f_id AND fp.friend = $1`, [userId, friendId]
         )
     } catch (err) {
       console.error(err)
@@ -74,7 +73,7 @@ class friendController {
   async #getLimitFriendsUserFromDB(userId) {
     try {
       return await db.query(
-        `SELECT u.profile_img, u.name, u.surname, u.id FROM friend_people fp
+        `SELECT u.profile_mini_img, u.name, u.surname, u.id FROM friend_people fp
           INNER JOIN friends f ON f.f_id = fp.f_id
           INNER JOIN users u ON fp.friend = u.id
           WHERE f.user_id = $1
@@ -91,7 +90,7 @@ class friendController {
   async #getAllFriendsUserFromDB(userId) {
     try {
       return await db.query(
-        `SELECT u.profile_img, u.name, u.surname, u.id FROM friend_people fp
+        `SELECT u.profile_mini_img, u.name, u.surname, u.id FROM friend_people fp
           INNER JOIN friends f ON f.f_id = fp.f_id
           INNER JOIN users u ON fp.friend = u.id
           WHERE f.user_id = $1
@@ -122,7 +121,7 @@ class friendController {
     if(friendsArray.length) {
       return friendsArray.map(friend => {
         return {
-          profileImg: friend.profile_img,
+          profileImg: friend.profile_mini_img,
           name: `${friend.name} ${friend.surname}`,
           link: `/id${friend.id}`
         }
@@ -164,7 +163,7 @@ class friendController {
             active: activeFriend ? returnActive() : false
           })
         } else {
-          res.status(404).json({err: 'not found'})
+          res.json({err: 'not found'})
         }
       } else {
         res.status(404).json({err: 'incorect friend id'})

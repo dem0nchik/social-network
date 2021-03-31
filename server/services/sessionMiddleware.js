@@ -1,7 +1,8 @@
 require('dotenv').config()
 const db = require('./db')
 const yn = require('yn');
-const pgSession = require('connect-pg-simple')(require('express-session'))
+const session = require('express-session')
+const pgSession = require('connect-pg-simple')(session)
 
 const sessionConfig = {
   store: new pgSession({
@@ -18,4 +19,4 @@ const sessionConfig = {
       secure: yn(process.env.SESSION_SECURE) // ENABLE ONLY ON HTTPS
 }}
 
-module.exports = sessionConfig
+module.exports = session(sessionConfig);

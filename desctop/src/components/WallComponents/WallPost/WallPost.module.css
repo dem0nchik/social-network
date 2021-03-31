@@ -44,6 +44,7 @@
 
 .post_name {
   margin: 0;
+  margin-top: -10px;
   color: #333;
   font-weight: 600;
 }
@@ -55,13 +56,13 @@
 .post_date {
   color: rgb(15, 20, 25);
   font-size: 12px;
-  margin: 7px 0 0 7px;
+  margin: 7px 0 0 0px;
 }
 
 .post_description {
   padding-left: 10px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .post_text {

@@ -1,15 +1,17 @@
 const autorizeRouter = require('./autorize.routes')
 const userRouter = require('./user.routes')
-const s3FileRouter = require('./s3File.routes')
+const googleDriveRouter = require('./googleDrive.routes')
 const postRouter = require('./post.routes')
 const friendRouter = require('./friend.routes')
 const infoRouter = require('./info.routes')
+const chatRouter = require('./chat.routes')
 
-module.exports = {
+module.exports = [
   autorizeRouter,
   userRouter,
-  s3FileRouter,
+  googleDriveRouter,
   postRouter,
   friendRouter,
-  infoRouter
-}
+  infoRouter,
+  chatRouter
+]

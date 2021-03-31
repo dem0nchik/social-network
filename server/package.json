@@ -20,13 +20,18 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "express-session": "^1.17.1",
+    "googleapis": "^68.0.0",
+    "image-size": "^0.9.7",
     "imagemin": "^7.0.1",
     "imagemin-jpegoptim": "^7.0.0",
     "imagemin-pngquant": "^9.0.2",
     "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^2.6.1",
     "nodemailer": "^6.4.18",
     "pg": "^8.5.1",
     "request": "^2.88.2",
+    "sharp": "^0.27.2",
+    "socket.io": "^4.0.0",
     "yn": "^4.0.0"
   },
   "devDependencies": {

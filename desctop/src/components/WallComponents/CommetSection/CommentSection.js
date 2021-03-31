@@ -4,7 +4,6 @@ import CastomInput from '../../accessoryComponents/CastomInput/CastomInput'
 import Comment from './Comment'
 
 const CommentSection = (props) => {
-
   const templateCommnet = () => {
     if (!props.data) return null
 

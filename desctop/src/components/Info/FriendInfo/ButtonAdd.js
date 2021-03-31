@@ -16,13 +16,19 @@ const ButtonAdd = (props) => {
   const handleNewUser = () => {
     if (Number.isInteger(+props.friendId)) {
      props.addNewFriendAction(+props.friendId)
+     setShowActions(true)
     }
   }
 
   const handleRemoveUser = () => {
     if (Number.isInteger(+props.friendId)) {
      props.removeFriendAction(+props.friendId)
+     setShowActions(true)
     }
+  }
+
+  const isFetchingButton = () => {
+    return props.fetchAddingAndRemove
   }
 
   return (
@@ -32,6 +38,7 @@ const ButtonAdd = (props) => {
       ?  <button 
           className={`${styles.button_add_friend} ${styles.button_add}`}
           onClick={() => handleNewUser()}
+          disabled={isFetchingButton()}
           title='Добавит обоим взаимную связь'
         >Установить связь</button>
       : 
@@ -44,11 +51,12 @@ const ButtonAdd = (props) => {
             !showActions 
               ? <button 
               className={`${styles.button_add}`}
-            >Связь установлена ✔</button>
+              >Связь установлена ✔</button>
 
             : <button 
               className={`${styles.button_remove_friend} ${styles.button_add}`}
               onClick={() => handleRemoveUser()}
+              disabled={isFetchingButton()}
               title='Уберет у обоих взаимную связь'
             >Убрать связь</button>
           }

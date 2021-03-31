@@ -3,6 +3,8 @@
   margin-bottom: 0;
   width: 960px;
   margin-top: 67px;
+  
+  position: sticky;
 }
 
 .content__wrap {

@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './WidgetEntity.module.css'
 
 const WidgetEntity = (props) => {
-  const imageEntity = props.profileImg || "/public/img/user_icon.png"
+  const imageEntity = props.profileImg || "/public/img/user_icon.jpg"
 
   return (
     <div className={styles.entity}>

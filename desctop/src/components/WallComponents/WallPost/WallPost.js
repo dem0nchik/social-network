@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import styles from './WallPost.module.css'
 import PhotoResize from '../PhotosResize/PhotosResize'
 import CommentSection from '../CommetSection/CommentSection'
+import utilits from '../../../utilits/utilits'
 
 const WallPost = (props) => {
   const [valueComment, setValueComment] = useState('')
@@ -34,18 +35,19 @@ const WallPost = (props) => {
   const handlePhoto = (index) => {
     props.handlePhoto(images, index)
   }
-  
+
+  const date = props.data.date ? utilits.parseDate(new Date(props.data.date), true) : ''
   return (
     <div className={styles.post}>
        <div className={styles.post_header}>
          <a href={props.pathname}>
-           <img src={props.data.profileImg || null} alt=""/>
+           <img src={props.data.profileImg || "/public/img/user_icon.jpg"} alt="user img"/>
           </a>
          <div className={styles.post_description}>
-          <a href={props.pathname}>
-            <p className={styles.post_name}>{props.data.name || ''}</p>
-          </a>
-          <sub className={styles.post_date}>{props.data.date || 'date:'}</sub>
+            <a href={props.pathname}>
+              <p className={styles.post_name}>{props.data.name || ''}</p>
+            </a>
+            <sub className={styles.post_date}>{date ? `${date.dateNow}, ${date.timeNow}` : 'date:'}</sub>
          </div>
           { props.isGroup && <button>Подписаться</button> }
        </div>
