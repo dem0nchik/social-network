@@ -28,6 +28,7 @@ const Chat = (props) => {
       props.newMessageInterlocutorFromSocketToChatsAction(data)
     })
 
+
     return () => {
       socket.off('INTERLOCUTOR:NEW_MESSAGE')
       socket.off('MESSAGE:NEW')
@@ -37,7 +38,7 @@ const Chat = (props) => {
   
   useEffect(() => {
     socket.on('MESSAGE:NEW', (data) => {
-      props.messageFromSocketAction(data.message);
+      props.messageFromSocketAction(data);
     })
 
     return () => {

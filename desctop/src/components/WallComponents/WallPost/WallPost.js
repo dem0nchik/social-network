@@ -37,6 +37,7 @@ const WallPost = (props) => {
   }
 
   const date = props.data.date ? utilits.parseDate(new Date(props.data.date), true) : ''
+  console.log(props.data.date);
   return (
     <div className={styles.post}>
        <div className={styles.post_header}>

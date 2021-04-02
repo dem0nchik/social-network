@@ -4,7 +4,7 @@ import styles from '../FriendInfo/FriendInfo.module.css'
 
 const UserImagesInfo = ({imagesUser}) => {
   const [photoToView, setPhotoToView] = React.useState(false)
-  const count = imagesUser.length
+  const count = imagesUser ? imagesUser.length : 0
   let imagesArray = []
   if (!!imagesUser) {
     imagesArray = imagesUser.map(img => {

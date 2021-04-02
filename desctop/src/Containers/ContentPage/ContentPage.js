@@ -21,6 +21,7 @@ const ContentPage = (props) => {
   const hasLocation = (testingArr, locationPath) => {
     return testingArr.some(el => locationPath.includes(el));
   }
+  
 
   const switchInfoComponent = () => {
     if (props.isAutorize) {

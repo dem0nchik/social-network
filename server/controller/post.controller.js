@@ -370,7 +370,7 @@ class postController {
             return {
               name: `${post.name} ${post.surname}`,
               profileImg: post.profile_mini_img,
-              date: postDate(post.date.toISOString()),
+              date: post.date,
               heartCount: postData.likesCount.rows[0].count,
               bodyText: post.text,
               images: postData.arrayImages,
@@ -392,7 +392,7 @@ class postController {
           res.json({err: 'not found', posts: []})
         }
       } else {
-        res.status(404).json({err: 'incorect user id'})
+        res.json({err: 'incorect user id'})
       }
     } catch (err) {
       console.log(err);
@@ -502,7 +502,7 @@ class postController {
             profileImg: currentCom.profile_mini_img,
             bodyText: currentCom.text,
             name: `${currentCom.name} ${currentCom.surname}`,
-            date: postDate(currentCom.date_created.toISOString()),
+            date: currentCom.date_created,
             userId: currentCom.id
           }
 

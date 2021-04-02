@@ -15,7 +15,7 @@ const Entity = props => {
   return (
     <div className={styles.entity}>
       <a href={props.data.link || '/'}>
-        <img src={imageEntity} alt="entity"/>
+        <img src={imageEntity} alt="entity" width={45} height={45}/>
         <p className={styles.name_entity}>{nameEntity()}</p>
       </a>
     </div>

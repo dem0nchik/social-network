@@ -20,6 +20,9 @@ export const INTERLOCUTOR_MESSAGE_FROM_SOCKET_TO_WIDGET = 'INTERLOCUTOR_MESSAGE_
 
 export const INTERLOCUTOR_MESSAGE_FROM_SOCKET_TO_CHATS = 'INTERLOCUTOR_MESSAGE_FROM_SOCKET_TO_CHATS'
 
+export const GET_COUNT_UNREAD_CHATS_REQUEST = 'GET_COUNT_UNREAD_CHATS_REQUEST'
+export const GET_COUNT_UNREAD_CHATS_FAIL = 'GET_COUNT_UNREAD_CHATS_FAIL'
+
 const ROUTING = 'ROUTING'
 
 import config from '../config'
@@ -89,6 +92,27 @@ export const getChatWidgetListAction = () => {
       })
       .catch(() => dispatch({
         type: GET_WIDGET_LIST_CHAT_FAIL,
+        error: true,
+        payload: new Error('Ошибка авторизации')
+      }))
+  }
+}
+
+
+export const getCountUnreadChatsAction = () => {
+  return (dispatch) => {
+    fetch(`${urlChat}/unread-count`, {
+        credentials: 'include',
+        method: 'POST',
+      })
+      .then(async (response) =>  {
+        return dispatch({
+          type: GET_COUNT_UNREAD_CHATS_REQUEST,
+          payload: await response.json()
+        })
+      })
+      .catch(() => dispatch({
+        type: GET_COUNT_UNREAD_CHATS_FAIL,
         error: true,
         payload: new Error('Ошибка авторизации')
       }))
@@ -170,11 +194,11 @@ export const sendMessageAction = (dataToSocket, socket) => {
 }
 
 
-export const messageFromSocketAction = (message) => {
+export const messageFromSocketAction = (data) => {
   return (dispatch) => {
     dispatch({
       type: MESSAGE_FROM_SOCKET,
-      payload: message
+      payload: data
     })
   }
 }

@@ -18,7 +18,10 @@ import {
   GET_WIDGET_LIST_CHAT_FAIL,
 
   INTERLOCUTOR_MESSAGE_FROM_SOCKET_TO_WIDGET,
-  INTERLOCUTOR_MESSAGE_FROM_SOCKET_TO_CHATS
+  INTERLOCUTOR_MESSAGE_FROM_SOCKET_TO_CHATS,
+
+  GET_COUNT_UNREAD_CHATS_REQUEST,
+  GET_COUNT_UNREAD_CHATS_FAIL
 } from "../actions/chatAction";
 
 const initialState = {
@@ -35,17 +38,30 @@ const initialState = {
   messageList: null,
   widgetList: [],
   error: '',
-  messageError: ''
+  messageError: '',
+  countUnreadChats: []
 }
 
 let newMessageList = null
+let newСountUnreadChats = null
 let lengthArray = 0
 
 const returnMessageListArray = (messageArray, message, isRead, messageSelf, haveError) => {
   let newMessageList = messageArray
 
   lengthArray = newMessageList.length-1 <= 0 ? 0 : newMessageList.length-1
-  if (lengthArray === 0) {
+
+  const date = new Date().toISOString().substr(0, 10)
+
+  if (newMessageList.length && (date === newMessageList[newMessageList.length-1].title)) {
+    newMessageList[lengthArray].messages.push({
+      bodyText: message,
+      isRead,
+      messageSelf,
+      time: new Date(),
+      error: haveError
+    })
+  } else {
     newMessageList.push({
       date: new Date(),
       title: new Date().toISOString().substr(0, 10),
@@ -56,14 +72,6 @@ const returnMessageListArray = (messageArray, message, isRead, messageSelf, have
         time: new Date(),
         error: haveError
       }]
-    })
-  } else {
-    newMessageList[lengthArray].messages.push({
-      bodyText: message,
-      isRead,
-      messageSelf,
-      time: new Date(),
-      error: haveError
     })
   }
 
@@ -86,6 +94,16 @@ export function chatReducer(state = initialState, action) {
       return {...state, fetchToDataChat: false, succesConnect: false}
 
     case GET_INFO_CHAT_SUCCESS:
+      newСountUnreadChats = state.countUnreadChats.slice(0)
+      let index = newСountUnreadChats.findIndex(el => el.chat_id === action.payload.chatId)
+      
+      if (index > 0) {
+        console.log('asasd', index);
+        newСountUnreadChats.unshift(...newСountUnreadChats.splice(index,1))
+      } else if (index === 0) {
+        newСountUnreadChats.pop()
+      }
+
       return {
         ...state, 
         isOnline: action.payload.isOnline,
@@ -96,7 +114,8 @@ export function chatReducer(state = initialState, action) {
         fetchToDataChat: false,
         chatId: action.payload.chatId,
         succesConnect: true,
-        messageList: action.payload.messageList
+        messageList: action.payload.messageList,
+        countUnreadChats: newСountUnreadChats
       }
 
     case GET_INFO_CHAT_FAIL:
@@ -144,7 +163,7 @@ export function chatReducer(state = initialState, action) {
 
       return {...state,
         isOnline: true,
-        messageList: returnMessageListArray(newMessageList, action.payload, true, false, false)
+        messageList: returnMessageListArray(newMessageList, action.payload.message, true, false, false)
       }
 
     case GET_WIDGET_LIST_CHAT_REQUEST:
@@ -155,6 +174,7 @@ export function chatReducer(state = initialState, action) {
 
     case INTERLOCUTOR_MESSAGE_FROM_SOCKET_TO_WIDGET:
       const newWidgetList = state.widgetList.slice(0)
+      newСountUnreadChats = state.countUnreadChats.slice(0)
 
       if (newWidgetList.length > 0) {
         let hasElement = newWidgetList.find(item => item.chatId == action.payload.chatId)
@@ -188,7 +208,13 @@ export function chatReducer(state = initialState, action) {
           countUnread: +hasElement.countUnread+1
         })
       }
-      return {...state, widgetList: newWidgetList}
+
+      if(!newСountUnreadChats.find(el => el.chat_id === action.payload.chatId))
+        newСountUnreadChats.push({chat_id: action.payload.chatId})
+        
+      return {...state, widgetList: newWidgetList,
+        countUnreadChats: newСountUnreadChats
+      }
 
     case INTERLOCUTOR_MESSAGE_FROM_SOCKET_TO_CHATS:
       const newListChats = state.listChats.slice(0)
@@ -235,6 +261,14 @@ export function chatReducer(state = initialState, action) {
         })
       }
       return {...state, listChats: newListChats} 
+
+    case GET_COUNT_UNREAD_CHATS_REQUEST:
+      return {...state,
+        countUnreadChats: action.payload.countUnreadChats
+      }
+
+    case GET_COUNT_UNREAD_CHATS_FAIL:
+      return {...state, error: action.payload}
 
     default:
       break;

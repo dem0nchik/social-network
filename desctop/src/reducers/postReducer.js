@@ -47,7 +47,6 @@ export function postReducer(state = initialState, action) {
     case NEW_POST_USER_SUCCESS:
       newPosts = state.postsData.slice(0)
       newPosts.unshift(action.payload)
-      console.log(state);
       return {...state, postsData: newPosts, fetchSentPost: false}
 
     case NEW_POST_USER_FAIL:

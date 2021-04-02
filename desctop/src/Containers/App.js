@@ -21,7 +21,6 @@ const App = (props) => {
       </>
     )
   }
-  
   if (props.autorize.isFetch) { 
     return ( <>
         <Skeleton height={'60px'}/>

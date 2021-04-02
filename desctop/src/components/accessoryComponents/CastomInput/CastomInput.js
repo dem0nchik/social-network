@@ -5,7 +5,7 @@ const CastomInput = (props) => {
   const inputRef = useRef(null)
 
   useEffect(() => {
-    inputRef.current.focus()
+    props.setFocus && inputRef.current.focus()
   }, [])
 
   const maxRows = props.maxRows || '1'
