@@ -25,14 +25,17 @@ const connection = async (socket) => {
     socket.on('MESSAGE:ADD', (dataToSocket) => {
       const {chatId, userId, message, interlocutorId, profileImg, name} = dataToSocket
 
+      let lastMessageText = message.length > 150 ? message.substr(0, 150)+'...' : message
+
       socket.to(`chat${chatId}`).emit('MESSAGE:NEW', {
-        userId, message
+        userId, message, chatId
       })
       
       socket.to(`user${interlocutorId}`).emit('INTERLOCUTOR:NEW_MESSAGE', {
-        userId, message, chatId, profileImg, name
+        userId, message: lastMessageText, chatId, profileImg, name
       })
     })
+
 
 
     socket.on('disconnect', () => {

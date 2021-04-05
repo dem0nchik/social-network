@@ -33,6 +33,11 @@ const ChatContent = (props) => {
     } else {
       window.location.href = '/chats'
     }
+
+
+    return () => {
+      messagesRef.current = null
+    }
   }, [])
 
   useEffect(() => {
@@ -54,7 +59,10 @@ const ChatContent = (props) => {
     if(props.data.messageList) {
       messagesRef.current.scrollTo(0, 99999)
     }
-    return () => messagesRef.current = null
+
+    return () => {
+      messagesRef.current = null
+    }
   }, [props.data.messageList])
 
   
@@ -118,6 +126,7 @@ const ChatContent = (props) => {
             placeholder="Введите сообщение"
             handleInput={handleInput}
             value={inputMsg}
+            setFocus={true}
           />
         </div>
 

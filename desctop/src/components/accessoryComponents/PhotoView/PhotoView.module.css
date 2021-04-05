@@ -22,7 +22,7 @@
 }
 
 .photoview_wrap {
-  width: 85vh;
+  min-width: 90vh;
   padding: 5px 0;
   min-height: 300px;
   box-sizing: border-box;

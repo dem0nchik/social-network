@@ -1,10 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Search from './Search/Search'
 import styles from './Header.module.css'
 import AccountName from './AccountName/AccountName'
+import { connect } from 'react-redux'
+import { getCountUnreadChatsAction } from '../../actions/chatAction'
 
 const Header = (props) => {
+  const [showUnread, setShowUnread] = useState(false);
+  useEffect(() => {
+    props.isAutorize && props.getCountUnreadChatsAction()
+  }, [])
 
+  useEffect(() => {
+    setShowUnread(props.chat.countUnreadChats.length && +props.chat.countUnreadChats.length !== 0 ? true : false)
+  }, [props.chat.countUnreadChats])
+  
   return (
     <div className={styles.header__wrapper}>
       <header className={styles.header}>
@@ -18,7 +28,14 @@ const Header = (props) => {
           ? <>
               <nav className={styles.navigation}>
                 <ul>
-                  <li><a href="/chats">Чаты</a></li>
+                  <li>
+                    <a className={styles.header_chat_link} href="/chats">
+                      <span>Чаты</span>
+                      {showUnread && 
+                        <span className={styles.header_chat_link_count}>{props.chat.countUnreadChats.length}</span>
+                      }
+                    </a>
+                  </li>
                   <li><a href="/group">Групы</a></li>
                   <li><a href="/friend">Друзья</a></li>
                 </ul>
@@ -34,4 +51,7 @@ const Header = (props) => {
   )
 }
 
-export default Header
+const mapDispatchToProps = dispatch => ({
+  getCountUnreadChatsAction: () => dispatch(getCountUnreadChatsAction()),
+})
+export default connect(store => ({chat: store.chat}), mapDispatchToProps)(Header)

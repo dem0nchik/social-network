@@ -102,14 +102,19 @@ class chatController {
         const newArrayChat = arrayChats.map(async (chat) => {
           const lastMessage = await this.#getLastMessageInChat(chat.chat_id)
           const countRead = await this.#getCountUnreadChat(chat.chat_id, userId)
-          
+          const lastMessageText = lastMessage.rows[0]?.body_text 
+            ? lastMessage.rows[0]?.body_text.length > 150
+              ? lastMessage.rows[0]?.body_text.substr(0, 150)+'...'
+              : lastMessage.rows[0]?.body_text
+            : null
+
           return {
             chatId: chat.chat_id,
             profileImg: chat.profile_mini_img,
             name: `${chat.name} ${chat.surname}`,
             linkToProfile: `/id${chat.user_active}`,
             isOnline: utilits.returnOnlineUser(chat.date_last),
-            lastMessageText: lastMessage.rows[0]?.body_text || null,
+            lastMessageText,
             lastMessageDate: lastMessage.rows[0]?.date_create || null,
             lastMessageIsRead: lastMessage.rows[0]?.is_read === undefined ? null : !!lastMessage.rows[0].is_read,
             countUnread: countRead.rows[0].count
@@ -331,10 +336,10 @@ class chatController {
             [msgId, userId]
         )
       }
-  } catch (err) {
-    console.error(err)
-    return new Error(err)
-  }
+    } catch (err) {
+      console.error(err)
+      return new Error(err)
+    }
   }
 
   async newMessage(req, res) {
@@ -352,6 +357,40 @@ class chatController {
     } catch (err) {
       console.error(err);
       res.json({ err: 'cannot sent message' })
+      return new Error(err)
+    }
+  }
+
+  async #countUndeadChatsInDB(userId) {
+    try {
+      return await db.query(
+        `SELECT DISTINCT cm.chat_id FROM chat_msg cm
+        INNER JOIN chat c ON c.chat_id = cm.chat_id
+        INNER JOIN chat_msg_status cms ON cm.msg_id = cms.msg_id
+        WHERE cms.user_id <> $1 AND cms.is_read = false AND (c.friend_id = $1
+            OR c.user_id = $1)`,
+          [userId]
+      )
+    } catch (err) {
+      console.error(err, 'cannot get unread count')
+      return new Error(err)
+    }
+  }
+
+
+  async getCountUnreadChats(req, res) {
+    try {
+      const userId = +req.session.idUserSession
+
+      if (Number.isInteger(userId)) {
+        const count = await this.#countUndeadChatsInDB(userId)
+        res.json({countUnreadChats: count.rows})        
+      } else {
+        res.status(403).end()
+      }
+    } catch (err) {
+      console.error(err);
+      res.json({ err: 'cannot get count unread chats'})
       return new Error(err)
     }
   }
