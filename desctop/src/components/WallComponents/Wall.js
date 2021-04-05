@@ -87,7 +87,6 @@ const Wall = (props) => {
     })
   }
 
-
   return (
     <div className={styles.wall}>
       {

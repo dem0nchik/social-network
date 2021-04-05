@@ -354,22 +354,27 @@ class postController {
       const userId = +req.params.id
       const sessionId = +req.session.idUserSession
       const currentPage = +req.query.page
+      let postData
 
+      console.log(userId, sessionId, currentPage);
       if (Number.isInteger(userId) 
-        && Number.isInteger(sessionId) 
         && Number.isInteger(currentPage) 
         && currentPage >= 1) 
       {
         const countPosts = currentPage * 10
         const userPostsFromDB = await this.#getUserPostsFromDB(userId, countPosts)
+        
 
         if (userPostsFromDB.rows.length) {
 
           const userPosts = userPostsFromDB.rows.map(async (post) => {
             const postId = post.post_id
 
-            const postData = await this.#getDataToPostInDB(postId, userId, sessionId)
-
+            if (sessionId)
+              postData = await this.#getDataToPostInDB(postId, userId, sessionId)
+            else
+              postData = await this.#getDataToPostInDB(postId, userId, userId)
+              
             return {
               name: `${post.name} ${post.surname}`,
               profileImg: post.profile_mini_img,

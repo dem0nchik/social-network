@@ -1,0 +1,137 @@
+*{margin: 0;padding: 0;}
+a{text-decoration:none; color: blue;}
+button {outline: none; cursor: pointer;}
+body {height:100%;font-family: "Arial", sans-serif;background: rgba(222, 222, 222, 0.2);}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  width: 960px;
+  align-self: center;
+  font-size: 18px;
+  line-height: 24px;
+  background: #fbfff2;
+  box-sizing: border-box;
+  padding: 10px 5px;
+}
+section h2 {
+  color: #cb3837;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.about_myself,
+.about_project,
+.about_frontend,
+.about_server,
+.about_backend,
+.about_db {
+  margin: 10px 0;
+}
+
+.about_myself p, .about_project p {
+  margin-top: 5px;
+  color: #333;
+}
+
+.about_myself b, .about_project b {
+  font-size: 20px;
+}
+.screen_form_login, 
+.screen_form_reg_data, 
+.screen_form_reg_err,
+.screen_form_reg_success,
+.screen_mail_link,
+.screen_form_login_err,
+.screen_after_autorize,
+.screen_user_menu,
+.screen_user_profile,
+.screen_user_ava,
+.screen_user_set_ava,
+.screen_user_ava_delete,
+.screen_settings,
+.screen_settings_desc,
+.screen_widget_users,
+.screen_view_all_users,
+.screen_friend_profile,
+.screen_friend_add,
+.screen_edit_news,
+.screen_edit_news_err,
+.screen_profile_with_post,
+.screen_post_with_like,
+.screen_post_with_comm,
+.screen_photo_view,
+.screen_view_friends,
+.screen_click_to_chat,
+.screen_chat_send_msg,
+.screen_chats_new_msg,
+.screen_not_login_profile,
+.screen_chat_with_msg,
+.screen_chats {
+margin-top: 20px;
+}
+.screen_form_login img, 
+.screen_form_reg_data img{
+  width: 85%;
+  margin-top: 5px;
+}
+
+.screen_form_reg_err img,
+.screen_form_reg_success img,
+.screen_form_login_err img,
+.screen_after_autorize img,
+.screen_user_profile img,
+.screen_user_set_ava img,
+.screen_settings img,
+.screen_settings_desc img,
+.screen_view_all_users img,
+.screen_friend_profile img,
+.screen_friend_add img,
+.screen_edit_news img,
+.screen_edit_news_err img,
+.screen_profile_with_post img,
+.screen_photo_view img,
+.screen_view_friends img,
+.screen_click_to_chat img,
+.screen_chats img,
+.screen_chats_new_msg img,
+.screen_chat_with_msg img,
+.screen_not_login_profile img,
+.screen_chat_send_msg img {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.screen_mail_link img{
+  width: 65%;
+  margin-top: 5px;
+}
+
+.about_server pre {
+  box-sizing: border-box;
+  background: #fff;
+  margin-top: 10px;
+  border: 2px solid #333;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.about_db img {
+  width: 100%;
+}
+
+
+@media screen and (max-width: 960px) {
+  section {
+    width: 100%;
+  }
+  .screen_post_with_like img,
+  .screen_post_with_comm img {
+    width: 100%;
+  }
+}
+
+

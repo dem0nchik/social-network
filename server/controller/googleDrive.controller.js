@@ -9,6 +9,7 @@ class googleDriveController {
       jpeg: 'image/jpeg',
       png: 'image/png',
       svg: 'image/svg+xml',
+      webp: 'image/webp',
     }
     
     let fileId = null

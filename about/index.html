@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Информация о проекте" />
+  <link rel="canonical" href="https://xcxlow.xyz/">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
+  <title>О проекте | xcxlow</title>
+</head>
+<body>
+  <main>
+    <section class="about_myself">
+      <h2>О себе</h2>
+      <p>Зовут меня Дима, 20 лет</p>
+      <p>Живу в киевский области, готов к переезду в Киев</p>
+      <p>Учился в Ржищеском техникуме по специальности "Инженерия программного обеспечения", закончил в 2019 году</p>
+      <p>По стечению обстоятельств устроился Електроментером СДТУ на электростанцию "Трипольская ТЕС" и работаю с ноября 2019</p>
+      <p>Очень люблю заниматься саморазвитием, все это время изучал а также занимался программированием в частности на JavaScript</p>
+    </section>
+    <section class="about_project">
+      <h2>О проекте</h2>
+      <p><b>Frontend</b> - React, Redux</p>
+      <p><b>Backend</b> - Node.js, Express</p>
+      <p><b>Database</b> - PostgreSQL</p>
+      <p><b>Server</b> - Ngnix, кэширование Varnish</p>
+      <p><b>Облачное хранение данных</b> - Сначала AWS S3, в данный момент Google Drive</p>
+      <p><b>Дополнительно</b> - Socket.io, сборщик webpack</p>
+      <p><b>smtp</b> - urk.net</p>
+      <p><b>github link</b> - <a href="https://github.com/dem0nchik/social-network" target="_blank" rel="noopener noreferrer">github.com/dem0nchik/social-network</a></p>
+    </section>
+
+    <section>
+      <h2>Аккаунт для тестирования</h2>
+      <p>Перейдите на сайт&nbsp;<a title="xcxlow" target="_blank" href="https://xcxlow.xyz">https://xcxlow.xyz</a></p>
+      <p>Пароль от тестового аккаунта: <span><b>qweqwe</b></span></p>
+      <p>Почта от тестового аккаунта: <span><b>hohij61781@tlhao86.com</b></span></p>
+    </section>
+
+    <section class="about_db">
+      <h2>Database</h2>
+      <p>Базу данных решил использовать реляционую, PostgreSQL</p>
+      <br>
+      <p>Схема Базы Данных</p>
+      <img src="scheme_db.png" alt="">
+    </section>
+
+    <section class="about_backend">
+      <h2>Backend</h2>
+      <p>Построен по принципу REST API, на node.js</p>
+      <br>
+      <p>Обмен данными в режиме реального времени - <b>Socket.io</b></p>
+    </section>
+
+    <section class="about_frontend">
+      <h2>Frontend</h2>
+      <div class="screen_form_login">
+        <p>При переходе на страницу будет доступна форма входа/регистрации</p>
+        <img src="screens/screen_form_login.png" alt="">
+      </div>
+
+      <div class="screen_form_reg_data">
+        <p>Если нажать на ссылку регистрация, откроется форма с регистрацией</p>
+        <img src="screens/screen_form_reg_data.png" alt="">
+      </div>
+
+      <div class="screen_form_reg_err">
+        <p>Если были введены ошибочные данные, выведет соответсвующие ошибки</p>
+        <img src="screens/screen_form_reg_err.png" alt="">
+      </div>
+
+      <div class="screen_form_reg_success">
+        <p>Когда данные были введены верно, и нажата кнопка регистрации, на почту отправляеться ссылка с подтверждением</p>
+        <img src="screens/screen_form_reg_success.png" alt="">
+      </div>
+
+      <div class="screen_mail_link">
+        <p>Текст сообщения</p>
+        <img src="screens/screen_mail_link.png" alt="">
+      </div>
+
+      <div class="screen_form_login_err">
+        <p>Если были введены неверные данные при входе, выводит ошибки</p>
+        <img src="screens/screen_form_login_err.png" alt="">
+      </div>
+
+      <div class="screen_after_autorize">
+        <p>После успешного входа, создаеться сессия, на главной странице показывает ленту новостей, шапку, а так же виджеты</p>
+        <img src="screens/screen_after_autorize.png" alt="">
+      </div>
+
+      <div class="screen_user_menu">
+        <p>Если в шапке нажать на имя пользователя, откроеться меню</p>
+        <img src="screens/screen_user_menu.png" alt="">
+      </div>
+
+      <div class="screen_user_profile">
+        <p>Так выглядит профиль пользователя</p>
+        <img src="screens/screen_user_profile.png" alt="">
+      </div>
+
+      <div class="screen_user_ava">
+        <p>Если навести на аватарку, появиться кнопка добавления</p>
+        <img src="screens/screen_user_ava.png" alt="">
+      </div>
+
+      <div class="screen_user_set_ava">
+        <p>После добавления профиль будет выглядеть так, для маленьких аватарок сохраняет в разрешении 40x40, для больших 250x250, так же сжимает размер если нужно, для оптимизации</p>
+        <img src="screens/screen_user_set_ava.png" alt="">
+      </div>
+
+      <div class="screen_user_ava_delete">
+        <p>Так же можно удалить аватарку либо изменить</p>
+        <img src="screens/screen_user_ava_delete.png" alt="">
+      </div>
+
+      <div class="screen_settings">
+        <p>Если нажать в меню пользователя либо на личной странице ссылку Настройки, откроеться страница настроек. Где можно изменить имя, фамилию, описание о себе, и посмотреть собственную информацию</p>
+        <img src="screens/screen_settings.png" alt="">
+      </div>
+
+      <div class="screen_settings_desc">
+        <p>Например установим описание о себе</p>
+        <img src="screens/screen_settings_desc.png" alt="">
+      </div>
+
+      <div class="screen_widget_users">
+        <p>Можно просмотреть всех пользователей если нажать на кнопку добавить друзей на личной странице или нажать на заголовок виджета, так же можно просмотреть последних 10 пользователей в виджете</p>
+        <img src="screens/screen_widget_users.png" alt="">
+      </div>
+
+      <div class="screen_view_all_users">
+        <p>Страница просмотра пользователей</p>
+        <img src="screens/screen_view_all_users.png" alt="">
+      </div>
+
+      <div class="screen_friend_profile">
+        <p>Страница профиля другого пользователя</p>
+        <img src="screens/screen_friend_profile.png" alt="">
+      </div>
+
+      <div class="screen_friend_add">
+        <p>Если нажать на кнопку установить связь, добавит в друзья пользователя. Если нажать убрать - уберет у обоих</p>
+        <img src="screens/screen_friend_add.png" alt="">
+      </div>
+
+      <div class="screen_edit_news">
+        <p>На личной странице можно добавлять посты до 6 картинок на один пост, так же картинки сжимает и обрезает до определеного размера если нужно</p>
+        <img src="screens/screen_edit_news.png" alt="">
+      </div>
+
+      <div class="screen_edit_news_err">
+        <p>Если было добавлено больше 6 картинок, появиться диалоговое окно с подсказкой, так же если было добавлено не фото, выведет соответсвующее сообщение</p>
+        <img src="screens/screen_edit_news_err.png" alt="">
+      </div>
+
+      <div class="screen_profile_with_post">
+        <p>Так будет выглядеть пост на личной странице</p>
+        <img src="screens/screen_profile_with_post.png" alt="">
+      </div>
+
+      <div class="screen_post_with_like">
+        <p>Посты можно лайкать, при повторном нажатии уберет лайк</p>
+        <img src="screens/screen_post_with_like.png" alt="">
+      </div>
+
+      <div class="screen_post_with_comm">
+        <p>Посты можно комментировать, если комментариев больше 3 при загрузке, выведет первые 3, остальные при нажатии кнопки "загрузить еще"</p>
+        <img src="screens/screen_post_with_comm.png" alt="">
+      </div>
+
+      <div class="screen_photo_view">
+        <p>Если нажать на фото, откроеться компонент просмотра фотографий, с прокруткой</p>
+        <img src="screens/screen_photo_view.png" alt="">
+      </div>
+
+      <div class="screen_click_to_chat">
+        <p>Если нажать на странице другого пользователя кнопку чат, отправиться запрос на создание чата, после чего откроеться странцица чата с пользователем</p>
+        <img src="screens/screen_click_to_chat.png" alt="">
+      </div>
+
+      <div class="screen_chat_send_msg">
+        <p>Так выглядит личный чат с пользователем, когда мы отправили сообщение</p>
+        <img src="screens/screen_chat_send_msg.png" alt="">
+      </div>
+
+      <div class="screen_chats">
+        <p>Страница просмотра списка чатов</p>
+        <img src="screens/screen_chats.png" alt="">
+      </div>
+
+      <div class="screen_chats_new_msg">
+        <p>Когда нам отправили сообщение</p>
+        <img src="screens/screen_chats_new_msg.png" alt="">
+      </div>
+
+      <div class="screen_chat_with_msg">
+        <p>Так выглядит диалог</p>
+        <img src="screens/screen_chat_with_msg.png" alt="">
+      </div>
+
+      <div class="screen_view_friends">
+        <p>Если нажать на личной странице заголовок "друзья" или в шапке ссылку "друзья", откроеться страница просмотра друзей</p>
+        <img src="screens/screen_view_friends.png" alt="">
+      </div>
+
+      <div class="screen_not_login_profile">
+        <p>Если мы не залогинены, можем просматривать только страциы пользователей или групп. На странице пользоватля нельзя лайкать и оставлять комментарии</p>
+        <img src="screens/screen_not_login_profile.png" alt="">
+      </div>
+    </section>
+
+    <section class="about_server">
+      <h2>Server</h2>
+      <p>Серевер находиться на отдельном VPS</p>
+      <br>
+      <p>Процесс-менеджер для node.js - <b>PM2</b></p>
+      <br>
+      <div>
+        <p>Файл настройки Ngnix:</p>
+        <pre>
+      server {
+
+          client_max_body_size 70M;
+          
+          root /var/www/xcxlow.xyz/social-network/desctop/dist;
+          index index.html index.htm index.nginx-debian.html;
+          
+          server_name xcxlow.xyz www.xcxlow.xyz;
+          
+            location / {
+              try_files $uri $uri/ /index.html;
+            }
+            location /api {
+              proxy_pass http://localhost:8080;
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection 'upgrade';
+              proxy_set_header Host $host;
+              proxy_cache_bypass $http_upgrade;
+            }
+
+            location ^~ /socket {
+                 rewrite  ^/socket/(.*)  /$1 break; #used to send request to base url
+                 proxy_pass http://localhost:8080;
+                 proxy_redirect off;
+                 proxy_pass_request_headers on;
+                 proxy_set_header X-Real-IP $remote_addr;
+                 proxy_set_header Host $http_host;
+                 proxy_set_header X-NginX-Proxy true;
+                 proxy_set_header X-Forwarded-Host $host;
+                 proxy_set_header X-Forwarded-Server $host;
+                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                 proxy_http_version 1.1;
+                 proxy_set_header Upgrade $http_upgrade;
+                 proxy_set_header Connection "upgrade";
+                 proxy_set_header Host $host;
+      
+          }
+
+          listen [::]:443 ssl http2 ipv6only=on; # managed by Certbot
+          listen 443 ssl http2; # managed by Certbot
+          ssl_certificate /etc/letsencrypt/live/xcxlow.xyz/fullchain.pem; # managed b$
+          ssl_certificate_key /etc/letsencrypt/live/xcxlow.xyz/privkey.pem; # managed$
+          include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+          ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+        }
+        server {
+            if ($host = www.xcxlow.xyz) {
+                return 301 https://$host$request_uri;
+            } # managed by Certbot
+        
+        
+            if ($host = xcxlow.xyz) {
+              return 301 https://$host$request_uri;
+            } # managed by Certbot
+        
+        
+                listen 8088;
+                listen [::]:8088;
+        
+          server_name xcxlow.xyz www.xcxlow.xyz;
+            return 404; # managed by Certbot
+        }
+      </pre>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
