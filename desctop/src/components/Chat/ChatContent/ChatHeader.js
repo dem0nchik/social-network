@@ -10,7 +10,7 @@ const ChatHeader = (props) => {
     online: 'online'
   }
   const [status, setStatus] = useState({
-    status: 'offline', 
+    status: '', 
     type: typesStatus.offline
   })
 

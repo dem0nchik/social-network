@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import PhotoView from '../../accessoryComponents/PhotoView/PhotoView'
+import DescriptionUser from '../AdditionalInfo/DescriptionUser'
 import UserImagesInfo from '../AdditionalInfo/UserImagesInfo'
 import InfoAvatar from '../InfoAvatar/InfoAvatar'
 import InfoEntity from '../InfoEntity/InfoEntity'
@@ -56,6 +57,7 @@ const FriendInfo = (props) => {
 
         <div className={styles.additional_info}>
           <UserImagesInfo imagesUser={props.imagesUser}/>
+          <DescriptionUser desc={props.userData.description}/>
         </div>
 
       </> :

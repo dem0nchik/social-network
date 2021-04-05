@@ -42,16 +42,19 @@ export const addNewPostUserAction = (postData) => {
         method: 'POST',
         body: postData
       })
-      .then(response => response.json())
-      .then(data => dispatch({
-        type: NEW_POST_USER_SUCCESS,
-        payload: data
-      }))
-      .catch(() => dispatch({
-        type: NEW_POST_USER_FAIL,
-        error: true,
-        payload: new Error('Ошибка авторизации')
-      }));
+      .then(async data => {
+          dispatch({
+          type: NEW_POST_USER_SUCCESS,
+          payload: await data.json()
+        })
+      })
+      .catch(() => {
+        dispatch({
+          type: NEW_POST_USER_FAIL,
+          error: true,
+          payload: new Error('Ошибка авторизации')
+        })
+      })
   }
 }
 

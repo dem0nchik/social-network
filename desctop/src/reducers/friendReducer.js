@@ -24,7 +24,8 @@ const initialState = {
     count: 0
   },
   fetchAddingAndRemove: false,
-  error: ''
+  error: '',
+  description: ''
 }
 
 export function friendReducer(state = initialState, action) {
@@ -41,7 +42,8 @@ export function friendReducer(state = initialState, action) {
           list: action.payload.friendList.list,
           count: action.payload.friendList.count
         },
-        isActiveFriend: action.payload.active
+        isActiveFriend: action.payload.active,
+        description: action.payload.description
       }
 
     case FRIEND_DATA_FAIL:

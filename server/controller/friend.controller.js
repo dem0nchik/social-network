@@ -160,7 +160,8 @@ class friendController {
               list: this.#returnFriendsListArray(getAllFriends.rows),
               count: countFriends.rows[0].count
             },
-            active: activeFriend ? returnActive() : false
+            active: activeFriend ? returnActive() : false,
+            description: friend.description
           })
         } else {
           res.json({err: 'not found'})
