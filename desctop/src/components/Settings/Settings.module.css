@@ -1,0 +1,136 @@
+.settings {
+  width: 100%;
+  margin-bottom: 15px;
+  margin-right: 15px;
+  background: rgba(252, 252, 252, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid rgba(222, 222, 222, 1);
+  box-shadow: 3px 3px 10px rgb(37 37 37 / 20%);
+}
+
+.settings_img img{
+  cursor: pointer;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  border: 2px solid rgba(222, 222, 222, 1);
+  object-fit: cover;
+}
+
+.settings_img {
+  margin: 0 auto;
+}
+
+.settings_form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings_form_input_names input{
+  margin-top: 7px;
+  min-width: 270px;
+  display: block;
+  border: 2px solid rgba(222, 222, 222, 0.5);
+  padding: 5px 10px;
+  transition: 0.2s all ease-in;
+  outline: none;
+  border-radius: 5px;
+  color: #333;
+}
+.settings_form_input_names input::placeholder{
+  color:rgba(119, 119, 119, 0.904);
+}
+
+.settings_form_input_names{
+  display: flex;
+  flex-direction: row;
+  font-weight: 600;
+  color: #000bad;
+  width: 600px;
+  justify-content: space-between;
+}
+
+
+.settings_form_input_description {
+  margin: 25px 0 20px 0;
+  font-weight: 600;
+  color: #000bad;
+  width: 600px;
+
+}
+.settings_form_input_description textarea{
+  margin-top: 7px;
+  min-width: 370px;
+  display: block;
+  border: 2px solid rgba(222, 222, 222, 0.5);
+  background-color: white;
+  padding: 10px;
+  transition: 0.2s all ease-in;
+  outline: none;
+  border-radius: 5px;
+  color: #333;
+}
+.settings_form_input_names input:focus, .settings_form_input_description textarea:focus {
+  border: 2px solid rgba(0, 11, 173, 0.3);
+}
+
+.settings_form_view_info_field {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.settings_form_view_title {
+  margin-right: 15px;
+  color: #000bad;
+  font-weight: 600;
+}
+
+.settings_form_view_mail {
+  font-weight: bold;
+}
+
+.settings_form_view_info_mail svg {
+  position: relative;
+  top: 14px;
+  left: 10px;
+  fill: #08b80a;
+}
+
+.settings_form_view_info_link a{
+  align-self: center;
+  color: rgba(19, 105, 161, 1);
+}
+.settings_form_view_info_link a:hover{
+  text-decoration: underline;
+}
+
+.settings_form_view_date {
+  font-style: italic;
+}
+
+.settings_submit {
+  margin-top: 25px;
+  max-width: 170px;
+  border: 1px solid rgba(15, 20, 25, 0.2);
+  background: rgba(222, 222, 222, 0.1);
+  border-radius: 5px;
+  margin-right: 20px;
+  color: #000bad;
+  padding: 7px 15px;
+  box-shadow: 1px 1px 5px rgb(37 37 37 / 20%);
+  transition: all 0.2s ease-in;
+  align-self: center;
+}
+.settings_submit:hover {
+  box-shadow: 3px 3px 10px rgb(37 37 37 / 20%);
+}
+
+.settings_submit[disabled] {
+  background: rgba(222, 222, 222, 0.9);
+  color: #888;
+  cursor: default;
+}

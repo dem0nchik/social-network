@@ -37,18 +37,24 @@ const initialState = {
   err: ''
 }
 
-let newPosts = null
+let newPosts = []
 
 export function postReducer(state = initialState, action) {
   switch (action.type) {
     case NEW_POST_USER_REQUEST:
       return {...state, fetchSentPost: true}
-
+      
     case NEW_POST_USER_SUCCESS:
-      newPosts = state.postsData.slice(0)
-      newPosts.unshift(action.payload)
+      newPosts = state.postsData.length ? state.postsData.slice(0) : []
+      
+      if (!newPosts.length) {
+        newPosts.push(action.payload)
+      } else {
+        newPosts.unshift(action.payload)
+      }
+      console.log(state.postsData);
       return {...state, postsData: newPosts, fetchSentPost: false}
-
+      
     case NEW_POST_USER_FAIL:
       return {...state, error: action.payload, fetchSentPost: false}
 

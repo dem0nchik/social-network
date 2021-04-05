@@ -4,13 +4,18 @@
   border-bottom: 1px solid rgba(222, 222, 222, 1);
   margin-left: 10px;
 }
-
+.info_photos_wrap {
+  margin: 5px 0 5px 5px;
+  border-right: 1px dotted rgba(202, 202, 202, 0.7);
+  padding-right: 10px;
+}
 .additional_info {
   display: flex;
   margin-left: 15px;
 }
 
 .info_photos_desc {
+  margin-top: 7px;
   color: #444;
   font-size: 14px;
   text-align: center;

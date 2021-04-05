@@ -6,27 +6,6 @@ import { loginUserAction, readingModalAction, registrationUserAction, setToggleF
 import { connect } from 'react-redux'
 import ModalConfirm from '../../accessoryComponents/ModalConfirm/ModalConfirm'
 
-const hashtags = [
-  'Создавай',
-  'Практикуй',
-  'Люби',
-  'Планируй',
-  'Хвали',
-  'Твори',
-  'Помогай',
-  'Улыбайся',
-  'Строй',
-  'Учись',
-  'Мотивируй',
-  'Пытайся',
-  'Закаляйся',
-  'Прагни',
-  'Жди',
-  'Начинай',
-  'Мечтай',
-  'Действуй',
-  'Награждай'
-]
 
 const PageAutorize = (props) => {
   const [toggleModal, setTogglemModal] = useState(false)
@@ -49,11 +28,6 @@ const PageAutorize = (props) => {
     props.viewMessageVerifyAction()
   }
 
-  const createHashtags = (hashtags = []) => {
-    return hashtags.map((el, i) => {
-      return <a key={i} href='#'>#{el}</a>
-    })
-  }
   const modalCallback = e => {
     e.preventDefault()
     setTogglemModal(false)
@@ -62,13 +36,13 @@ const PageAutorize = (props) => {
   }
   return (
     <div className={styles.autorize}>
-      <div className={styles.leftBlock}>
-        <p className={styles.logo} title={'xcxlow'}>XCXLOW</p>
-        <p className={styles.description}>Социальная Сеть :)</p>
-        <div className={styles.hashes_wrap}>
-          {createHashtags(hashtags)}
+      <header className={styles.autorize_header}>
+        <div className={styles.logo_wrap}>
+          <a href="/"><h1 className={styles.logo} title={'xcxlow'}>XCXLOW</h1></a>
+          <p className={styles.description}>Социальная Сеть</p>
         </div>
-      </div>
+        <p className={styles.welcome}>Добро пожаловать в сообщество xcxlow! 👻</p>
+      </header>
       <div className={styles.content}>
         {props.autorize.formName === 'login'
           ? <FormLogin
@@ -85,6 +59,13 @@ const PageAutorize = (props) => {
             />
         }
         {toggleModal && <ModalConfirm callback={modalCallback} description={messageModal}/>}
+
+        <div className={styles.about}>
+          <img src="/public/img/phone.png" alt=""/>
+          <p>Социальная сеть для общения</p>
+          <p>Делись каждыми моментами со своими друзьями</p>
+          <p>Узнавай что-то новое</p>
+        </div>
       </div>
     </div>
   )

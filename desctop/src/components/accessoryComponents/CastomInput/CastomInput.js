@@ -14,6 +14,7 @@ const CastomInput = (props) => {
 
   return (
     <TextareaAutosize
+      id={props.id || ''}
       placeholder={props.placeholder || 'Введите текст'} 
       className={styles.input_message} 
       onChange={handleInput}

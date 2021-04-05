@@ -1,5 +1,6 @@
 import React, { useEffect, useState }  from 'react'
 import ModalConfirm from '../../accessoryComponents/ModalConfirm/ModalConfirm'
+import DescriptionUser from '../AdditionalInfo/DescriptionUser'
 import UserImagesInfo from '../AdditionalInfo/UserImagesInfo'
 import InfoAvatar from '../InfoAvatar/InfoAvatar'
 import InfoEntity from '../InfoEntity/InfoEntity'
@@ -75,6 +76,7 @@ const UserInfo = (props) => {
 
       <div className={styles.additional_info}>
         <UserImagesInfo imagesUser={props.imagesUser}/>
+        <DescriptionUser desc={props.userData.description}/>
       </div>
     </div>
 
@@ -88,7 +90,7 @@ const UserInfo = (props) => {
       <h3>{`${props.userData.name} ${props.userData.surname}`}</h3>
 
       <div className={styles.button_wrap}>
-        <a href="/setings">Настройки</a>
+        <a href="/settings">Настройки</a>
       </div>
     </div>
   </>

@@ -9,6 +9,7 @@ import Chat from '../../components/Chat/Chat'
 import ViewEntity from '../../components/ViewEntity/ViewEntity'
 import { userDataAction } from '../../actions/userAction'
 import { connect } from 'react-redux'
+import Settings from '../../components/Settings/Settings'
 
 const ContentPage = (props) => {
 
@@ -19,7 +20,7 @@ const ContentPage = (props) => {
   }, [])
 
   const hasLocation = (testingArr, locationPath) => {
-    return testingArr.some(el => locationPath.includes(el));
+    return testingArr.some(el => locationPath.startsWith(el));
   }
   
 
@@ -61,6 +62,11 @@ const ContentPage = (props) => {
       if (hasLocation(['/chat'], props.location.pathname)) {
         return <Chat pathname={props.location.pathname}/>
       }
+      if (hasLocation(['/settings'], props.location.pathname)) {
+        return <Settings 
+          userData={props.user}
+        />
+      } 
     }
     if (hasLocation(['/id', '/group'], props.location.pathname)) {
       return <Wall 
@@ -68,7 +74,7 @@ const ContentPage = (props) => {
           isAutorize={props.isAutorize}
           userData={props.user}
         />
-    }  
+    }
     if (!props.isAutorize) {
       return <h2 style={{width: '665px'}}>Вы не авторизированы</h2>
     }  

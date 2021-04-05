@@ -155,8 +155,10 @@ class postController {
           const addedPost = await this.#addPostDataInDB(userId, textBody)
           const postId = addedPost.rows[0].post_id
 
-          const getPost = await this.#getOnePostUserInDB(postId, userId)
-          res.json(getPost)
+          await this.#getOnePostUserInDB(postId, userId)
+            .then(getPost => {
+              res.json(getPost)
+            })
         }
       } catch (err) {
         console.error(err);
@@ -206,6 +208,7 @@ class postController {
       const commentAndLikesAndImagesData = await this.#getDataToPostInDB(postId, userId)
       
       const postAndUserData = post.rows[0]
+
       return {
         name: `${postAndUserData.name} ${postAndUserData.surname}`,
         profileImg: postAndUserData.profile_mini_img,

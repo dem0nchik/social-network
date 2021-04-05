@@ -25,7 +25,7 @@ const AccountName = (props) => {
         <div className={styles.user_menu}>
           <ul>
             <a href={linkId()}><li>Профиль</li></a>
-            <a href="/setings"><li>Настройки</li></a>
+            <a href="/settings"><li>Настройки</li></a>
             <a href={config.API_URL+'/api/autorize/logout'}><li>Выйти</li></a>
           </ul>
         </div>

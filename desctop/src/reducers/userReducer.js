@@ -5,7 +5,10 @@ import {
   USER_DELETE_IMG_REQUEST,
   USER_NEW_IMG_FAIL,
   USER_NEW_IMG_REQUEST,
-  USER_DATA_FETCH
+  USER_DATA_FETCH,
+  SET_SETTINGS_USER_REQUEST,
+  SET_SETTINGS_USER_SUCCESS,
+  SET_SETTINGS_USER_FAIL
 } from "../actions/userAction";
 
 const initialState = {
@@ -21,7 +24,9 @@ const initialState = {
     count: 0
   },
   error: '',
-  isUserDataFetching: true
+  isUserDataFetching: true,
+  description: '',
+  isSettingFetching: false
 }
 
 export function userReducer(state = initialState, action) {
@@ -32,6 +37,7 @@ export function userReducer(state = initialState, action) {
         name: action.payload.name,
         surname: action.payload.surname,
         email: action.payload.email,
+        description: action.payload.description,
         data_created: action.payload.data_created,
         profile_img: action.payload.profile_img,
         friendList: {
@@ -40,18 +46,41 @@ export function userReducer(state = initialState, action) {
         },
         isReceive: false
       }
+
     case USER_DATA_FAIL:
         return {...state, error: action.payload}
+        
     case USER_DATA_FETCH:
         return {...state, isUserDataFetching: false}
+
     case USER_NEW_IMG_REQUEST:
         return {...state, profile_img: action.payload.profile_img}
+
     case USER_NEW_IMG_FAIL:
         return {...state, error: action.payload}
+
     case USER_DELETE_IMG_REQUEST:
         return {...state, profile_img: action.payload.profile_img}
+
     case USER_DELETE_IMG_FAIL:
         return {...state, error: action.payload}
+
+    case SET_SETTINGS_USER_REQUEST:
+        return {...state, isSettingFetching: true}
+
+    case SET_SETTINGS_USER_SUCCESS:
+        return {...state,
+        name: action.payload.name,
+        surname: action.payload.surname,
+        description: action.payload.description,
+        isSettingFetching: false
+      }
+
+    case SET_SETTINGS_USER_FAIL:
+        return {...state, error: action.payload,
+          isSettingFetching: false
+        }
+
     default:
       break;
   }

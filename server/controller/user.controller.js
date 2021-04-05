@@ -6,6 +6,8 @@ const imagemin = require('../services/imagemin')
 const sharp = require('sharp')
 const sizeOf = require('image-size')
 
+const setUserOnlineStatus = require('../socketio/setUserOnlineStatus/setUserOnlineStatus')
+
 const { randomId } = require('../utilits/utilits')
 
 
@@ -120,13 +122,16 @@ class UserController {
   }
 
   async getDataUser(req, res) {
-    if (req.session.idUserSession) {
+    const userId = +req.session.idUserSession
+    
+    if (Number.isInteger(userId)) {
       try {
-        const dataUserInDB = await db.query(`SELECT * FROM users WHERE id = $1`, [req.session.idUserSession])
+        await setUserOnlineStatus(userId, true)
+        const dataUserInDB = await db.query(`SELECT * FROM users WHERE id = $1`, [userId])
         const user = dataUserInDB.rows[0]
 
-        const getAllFriends = await this.#getLimitFriendsUserFromDB(req.session.idUserSession)
-        const countFriends = await this.#totalCountFriendsUserInDB(req.session.idUserSession)
+        const getAllFriends = await this.#getLimitFriendsUserFromDB(userId)
+        const countFriends = await this.#totalCountFriendsUserInDB(userId)
 
         res.json({
           id: user.id,
@@ -138,7 +143,8 @@ class UserController {
           friendList: {
             list: this.#returnFriendsListArray(getAllFriends.rows),
             count: countFriends.rows[0].count
-          }
+          },
+          description: user.description === null ? '' : user.description
         })
       } catch (err) {
         console.error(err);
@@ -245,6 +251,75 @@ class UserController {
       return new Error(error)       
     }
   }
+
+  async #setSettingsUserInDB(data, userId) {
+    const {name, surname, description} = data
+
+    try {
+      if (!name && !surname) {
+        return await db.query( `UPDATE users 
+          SET description = $1
+          WHERE id = $2 RETURNING *`, [description, userId]
+        )
+      } else if (!name && !description) {
+        return await db.query( `UPDATE users 
+          SET surname = $1
+          WHERE id = $2 RETURNING *`, [surname, userId]
+        )
+      } else if (!surname && !description) {
+        return await db.query( `UPDATE users 
+          SET name = $1
+          WHERE id = $2 RETURNING *`, [name, userId]
+        )
+      } else if (name && surname && !description) {
+        return await db.query( `UPDATE users 
+          SET name = $1, surname = $2
+          WHERE id = $3 RETURNING *`, [name, surname, userId]
+        )
+      } else if (name && !surname && description) {
+        return await db.query( `UPDATE users 
+          SET name = $1, description = $2
+          WHERE id = $3 RETURNING *`, [name, description, userId]
+        )
+      } else if (!name && surname && description) {
+        return await db.query( `UPDATE users 
+          SET surname = $1, description = $2
+          WHERE id = $3 RETURNING *`, [surname, description, userId]
+        )
+      } else if (name && surname && description) {
+        return await db.query( `UPDATE users 
+          SET name = $1, surname = $2, description = $3
+          WHERE id = $4 RETURNING *`, [name, surname, description, userId]
+        )
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async setSettingsUser(req, res) {
+    const userId = +req.session.idUserSession
+    const data = req.body
+
+    if (Number.isInteger(userId)) {
+      try {
+        const userData = await this.#setSettingsUserInDB(data, userId)
+                
+        res.json({
+          name: userData.rows[0].name,
+          surname: userData.rows[0].surname,
+          description: userData.rows[0].description === null ? '' : userData.rows[0].description
+        })
+      } catch (err) {
+        console.error(err);
+        res.status(500).end()
+        return new Error(err)
+      }
+    } else {
+      res.status(403).end()
+    }
+  }
+
 }
 
 module.exports = new UserController()

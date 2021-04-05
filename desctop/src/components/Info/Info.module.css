@@ -7,3 +7,16 @@
   border: 2px solid rgba(222, 222, 222, 1);
   box-shadow: 3px 3px 10px rgb(37 37 37 / 20%);
 }
+
+.description {
+  margin-left: 25px;
+  max-width: 270px;
+  word-wrap: break-word;
+  text-align: center;
+}
+.description_title {
+  margin-bottom: -10px;
+  color: #000bad;
+  font-size: 14px;
+  font-weight: 600;
+}

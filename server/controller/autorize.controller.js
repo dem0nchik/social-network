@@ -32,7 +32,7 @@ class AutorizeController {
         const newPerson = await db.query(
           `INSERT INTO users(email, "password", name, surname) VALUES ($1, $2, $3, $4) RETURNING *`,
             [email.trim(), hashPassword, name.trim(), surname.trim()])
-
+            
         return {
           message: 'Пользователь успешно создан, подтвердите ваш email',
           data: newPerson.rows[0]
